@@ -1,0 +1,1192 @@
+### All log outputs from terminal have been copy pasted here.
+
+create datasets
+
+(base) user@computer lab % time python -u creation.py
+no. of lines in the entire corpus:  7871825
+no. of words in the entire corpus:  151523090
+number of indices after removing those from ds_1:  5247884
+no duplicate indexing detected
+number of lines (derived from indices) in dataset 1:  2623941
+number of lines (derived from indices) in dataset 2:  5247883
+number of lines (derived from indices) in dataset 3:  7871825
+ds_1 is a confirmed subset of ds_2
+word count for dataset 1:  50507317
+word count for dataset 2:  101026212
+word count for dataset 3:  151523090
+python -u creation.py  33.64s user 2.85s system 99% cpu 36.586 total
+(base) user@computer lab % 
+
+make GloVe
+
+(base) user@computer GloVe % time make
+mkdir -p build
+gcc -c src/vocab_count.c -o build/vocab_count.o -lm -pthread -O3 -march=native -funroll-loops -Wall -Wextra -Wpedantic
+clang: warning: -lm: 'linker' input unused [-Wunused-command-line-argument]
+In file included from src/vocab_count.c:30:
+src/common.h:53:24: warning: a function declaration without a prototype is deprecated in all versions of C [-Wstrict-prototypes]
+HASHREC **inithashtable();
+                       ^
+                        void
+src/vocab_count.c:87:15: warning: a function declaration without a prototype is deprecated in all versions of C [-Wstrict-prototypes]
+int get_counts() {
+              ^
+               void
+2 warnings generated.
+gcc -c src/cooccur.c -o build/cooccur.o -lm -pthread -O3 -march=native -funroll-loops -Wall -Wextra -Wpedantic
+clang: warning: -lm: 'linker' input unused [-Wunused-command-line-argument]
+In file included from src/cooccur.c:30:
+src/common.h:53:24: warning: a function declaration without a prototype is deprecated in all versions of C [-Wstrict-prototypes]
+HASHREC **inithashtable();
+                       ^
+                        void
+src/cooccur.c:232:21: warning: a function declaration without a prototype is deprecated in all versions of C [-Wstrict-prototypes]
+int get_cooccurrence() {
+                    ^
+                     void
+2 warnings generated.
+gcc -c src/shuffle.c -o build/shuffle.o -lm -pthread -O3 -march=native -funroll-loops -Wall -Wextra -Wpedantic
+clang: warning: -lm: 'linker' input unused [-Wunused-command-line-argument]
+In file included from src/shuffle.c:28:
+src/common.h:53:24: warning: a function declaration without a prototype is deprecated in all versions of C [-Wstrict-prototypes]
+HASHREC **inithashtable();
+                       ^
+                        void
+src/shuffle.c:120:22: warning: a function declaration without a prototype is deprecated in all versions of C [-Wstrict-prototypes]
+int shuffle_by_chunks() {
+                     ^
+                      void
+2 warnings generated.
+gcc -c src/glove.c -o build/glove.o -lm -pthread -O3 -march=native -funroll-loops -Wall -Wextra -Wpedantic
+clang: warning: -lm: 'linker' input unused [-Wunused-command-line-argument]
+In file included from src/glove.c:38:
+src/common.h:53:24: warning: a function declaration without a prototype is deprecated in all versions of C [-Wstrict-prototypes]
+HASHREC **inithashtable();
+                       ^
+                        void
+src/glove.c:92:27: warning: a function declaration without a prototype is deprecated in all versions of C [-Wstrict-prototypes]
+void initialize_parameters() {
+                          ^
+                           void
+src/glove.c:379:16: warning: a function declaration without a prototype is deprecated in all versions of C [-Wstrict-prototypes]
+int train_glove() {
+               ^
+                void
+3 warnings generated.
+gcc -c src/common.c -o build/common.o -lm -pthread -O3 -march=native -funroll-loops -Wall -Wextra -Wpedantic
+clang: warning: -lm: 'linker' input unused [-Wunused-command-line-argument]
+In file included from src/common.c:31:
+src/common.h:53:24: warning: a function declaration without a prototype is deprecated in all versions of C [-Wstrict-prototypes]
+HASHREC **inithashtable();
+                       ^
+                        void
+src/common.c:57:25: warning: a function declaration without a prototype is deprecated in all versions of C [-Wstrict-prototypes]
+HASHREC ** inithashtable() {
+                        ^
+                         void
+2 warnings generated.
+gcc build/vocab_count.o build/common.o -o build/vocab_count -lm -pthread -O3 -march=native -funroll-loops -Wall -Wextra -Wpedantic
+gcc build/cooccur.o build/common.o -o build/cooccur -lm -pthread -O3 -march=native -funroll-loops -Wall -Wextra -Wpedantic
+gcc build/shuffle.o build/common.o -o build/shuffle -lm -pthread -O3 -march=native -funroll-loops -Wall -Wextra -Wpedantic
+gcc build/glove.o build/common.o -o build/glove -lm -pthread -O3 -march=native -funroll-loops -Wall -Wextra -Wpedantic
+make  0.75s user 0.39s system 26% cpu 4.305 total
+(base) user@computer GloVe % 
+
+
+check GNU Make version
+
+(base) user@computer GloVe % make -v   
+GNU Make 3.81
+Copyright (C) 2006  Free Software Foundation, Inc.
+This is free software; see the source for copying conditions.
+There is NO warranty; not even for MERCHANTABILITY or FITNESS FOR A
+PARTICULAR PURPOSE.
+
+This program built for i386-apple-darwin11.3.0
+(base) user@computer GloVe % 
+
+clang / gcc version
+
+(base) user@computer GloVe % gcc --version 
+Apple clang version 14.0.3 (clang-1403.0.22.14.1)
+Target: x86_64-apple-darwin22.3.0
+Thread model: posix
+InstalledDir: /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin
+(base) user@computer GloVe % 
+
+
+python version
+
+(base) user@computer GloVe % python
+Python 3.8.8 (default, Apr 13 2021, 12:59:45) 
+[Clang 10.0.0 ] :: Anaconda, Inc. on darwin
+Type "help", "copyright", "credits" or "license" for more information.
+
+numpy version
+
+(base) user@computer GloVe % python
+Python 3.8.8 (default, Apr 13 2021, 12:59:45) 
+[Clang 10.0.0 ] :: Anaconda, Inc. on darwin
+Type "help", "copyright", "credits" or "license" for more information.
+>>> import numpy
+Intel MKL WARNING: Support of Intel(R) Streaming SIMD Extensions 4.2 (Intel(R) SSE4.2) enabled only processors has been deprecated. Intel oneAPI Math Kernel Library 2025.0 will require Intel(R) Advanced Vector Extensions (Intel(R) AVX) instructions.
+Intel MKL WARNING: Support of Intel(R) Streaming SIMD Extensions 4.2 (Intel(R) SSE4.2) enabled only processors has been deprecated. Intel oneAPI Math Kernel Library 2025.0 will require Intel(R) Advanced Vector Extensions (Intel(R) AVX) instructions.
+>>> numpy.version.version
+'1.23.5'
+>>> 
+
+demo.sh-glove
+
+#!/bin/bash
+set -e
+
+# Makes programs, downloads sample data, trains a GloVe model, and then evaluates it.
+# One optional argument can specify the language used for eval script: matlab, octave or [default] python
+
+make
+
+CORPUS=variable.txt
+VOCAB_FILE=vocab.txt
+COOCCURRENCE_FILE=cooccurrence.bin
+COOCCURRENCE_SHUF_FILE=cooccurrence.shuf.bin
+BUILDDIR=build
+SAVE_FILE=vectors
+VERBOSE=2
+MEMORY=48.0
+VOCAB_MIN_COUNT=5
+VECTOR_SIZE=variable
+MAX_ITER=15
+WINDOW_SIZE=15
+BINARY=0
+NUM_THREADS=12
+X_MAX=10
+if hash python 2>/dev/null; then
+    PYTHON=python
+else
+    PYTHON=python3
+fi
+
+echo
+echo "$ $BUILDDIR/vocab_count -min-count $VOCAB_MIN_COUNT -verbose $VERBOSE < $CORPUS > $VOCAB_FILE"
+$BUILDDIR/vocab_count -min-count $VOCAB_MIN_COUNT -verbose $VERBOSE < $CORPUS > $VOCAB_FILE
+echo "$ $BUILDDIR/cooccur -memory $MEMORY -vocab-file $VOCAB_FILE -verbose $VERBOSE -window-size $WINDOW_SIZE < $CORPUS > $COOCCURRENCE_FILE"
+$BUILDDIR/cooccur -memory $MEMORY -vocab-file $VOCAB_FILE -verbose $VERBOSE -window-size $WINDOW_SIZE < $CORPUS > $COOCCURRENCE_FILE
+echo "$ $BUILDDIR/shuffle -memory $MEMORY -verbose $VERBOSE < $COOCCURRENCE_FILE > $COOCCURRENCE_SHUF_FILE"
+$BUILDDIR/shuffle -memory $MEMORY -verbose $VERBOSE < $COOCCURRENCE_FILE > $COOCCURRENCE_SHUF_FILE
+echo "$ $BUILDDIR/glove -save-file $SAVE_FILE -threads $NUM_THREADS -input-file $COOCCURRENCE_SHUF_FILE -x-max $X_MAX -iter $MAX_ITER -vector-size $VECTOR_SIZE -binary $BINARY -vocab-file $VOCAB_FILE -verbose $VERBOSE"
+$BUILDDIR/glove -save-file $SAVE_FILE -threads $NUM_THREADS -input-file $COOCCURRENCE_SHUF_FILE -x-max $X_MAX -iter $MAX_ITER -vector-size $VECTOR_SIZE -binary $BINARY -vocab-file $VOCAB_FILE -verbose $VERBOSE
+
+# if [ "$CORPUS" = 'text8' ]; then
+#    if [ "$1" = 'matlab' ]; then
+#        matlab -nodisplay -nodesktop -nojvm -nosplash < ./eval/matlab/read_and_evaluate.m 1>&2 
+#    elif [ "$1" = 'octave' ]; then
+#        octave < ./eval/octave/read_and_evaluate_octave.m 1>&2
+#    else
+#        echo "$ $PYTHON eval/python/evaluate.py"
+#        $PYTHON eval/python/evaluate.py
+#    fi
+# fi
+
+
+glove-50m-50vec
+
+(base) user@computer GloVe % time ./demo.sh 
+mkdir -p build
+
+$ build/vocab_count -min-count 5 -verbose 2 < 50m.txt > vocab.txt
+BUILDING VOCABULARY
+Processed 50507317 tokens.
+Counted 1750634 unique words.
+Truncating vocabulary at min count 5.
+Using vocabulary of size 262317.
+
+$ build/cooccur -memory 48.0 -vocab-file vocab.txt -verbose 2 -window-size 15 < 50m.txt > cooccurrence.bin
+COUNTING COOCCURRENCES
+window size: 15
+context: symmetric
+max product: 144537413
+overflow length: 456340275
+Reading vocab from file "vocab.txt"...loaded 262317 words.
+Building lookup table...table contains 1035431043 elements.
+Processed 50507317 tokens.
+Writing cooccurrences to disk..........2 files in total.
+Merging cooccurrence files: processed 141533121 lines.
+
+$ build/shuffle -memory 48.0 -verbose 2 < cooccurrence.bin > cooccurrence.shuf.bin
+Using random seed 1706705326
+SHUFFLING COOCCURRENCES
+array size: 3060164198
+Shuffling by chunks: processed 141533121 lines.
+Wrote 1 temporary file(s).
+Merging temp files: processed 141533121 lines.
+
+$ build/glove -save-file vectors -threads 12 -input-file cooccurrence.shuf.bin -x-max 10 -iter 15 -vector-size 50 -binary 0 -vocab-file vocab.txt -verbose 2
+TRAINING MODEL
+Read 141533121 lines.
+Initializing parameters...Using random seed 1706705366
+done.
+vector size: 50
+vocab size: 262317
+x_max: 10.000000
+alpha: 0.750000
+01/31/24 - 06:19.39PM, iter: 001, cost: 0.074472
+01/31/24 - 06:19.52PM, iter: 002, cost: 0.051823
+01/31/24 - 06:20.05PM, iter: 003, cost: 0.045054
+01/31/24 - 06:20.18PM, iter: 004, cost: 0.041928
+01/31/24 - 06:20.30PM, iter: 005, cost: 0.040105
+01/31/24 - 06:20.42PM, iter: 006, cost: 0.038875
+01/31/24 - 06:20.56PM, iter: 007, cost: 0.038011
+01/31/24 - 06:21.10PM, iter: 008, cost: 0.037293
+01/31/24 - 06:21.24PM, iter: 009, cost: 0.036748
+01/31/24 - 06:21.37PM, iter: 010, cost: 0.036252
+01/31/24 - 06:21.49PM, iter: 011, cost: 0.035816
+01/31/24 - 06:22.03PM, iter: 012, cost: 0.035468
+01/31/24 - 06:22.15PM, iter: 013, cost: 0.035183
+01/31/24 - 06:22.27PM, iter: 014, cost: 0.034929
+01/31/24 - 06:22.40PM, iter: 015, cost: 0.034705
+./demo.sh  1901.83s user 44.39s system 620% cpu 5:13.75 total
+(base) user@computer GloVe % 
+
+glove-100m-50vec
+
+(base) user@computer GloVe % time ./demo.sh
+mkdir -p build
+
+$ build/vocab_count -min-count 5 -verbose 2 < 100m.txt > vocab.txt
+BUILDING VOCABULARY
+Processed 101026212 tokens.
+Counted 2705792 unique words.
+Truncating vocabulary at min count 5.
+Using vocabulary of size 427249.
+
+$ build/cooccur -memory 48.0 -vocab-file vocab.txt -verbose 2 -window-size 15 < 100m.txt > cooccurrence.bin
+COUNTING COOCCURRENCES
+window size: 15
+context: symmetric
+max product: 144537413
+overflow length: 456340275
+Reading vocab from file "vocab.txt"...loaded 427249 words.
+Building lookup table...table contains 1176280327 elements.
+Processed 101026212 tokens.
+Writing cooccurrences to disk..........2 files in total.
+Merging cooccurrence files: processed 249507347 lines.
+
+$ build/shuffle -memory 48.0 -verbose 2 < cooccurrence.bin > cooccurrence.shuf.bin
+Using random seed 1706705908
+SHUFFLING COOCCURRENCES
+array size: 3060164198
+Shuffling by chunks: processed 249507347 lines.
+Wrote 1 temporary file(s).
+Merging temp files: processed 249507347 lines.
+
+$ build/glove -save-file vectors -threads 12 -input-file cooccurrence.shuf.bin -x-max 10 -iter 15 -vector-size 50 -binary 0 -vocab-file vocab.txt -verbose 2
+TRAINING MODEL
+Read 249507347 lines.
+Initializing parameters...Using random seed 1706705980
+done.
+vector size: 50
+vocab size: 427249
+x_max: 10.000000
+alpha: 0.750000
+01/31/24 - 06:30.06PM, iter: 001, cost: 0.075328
+01/31/24 - 06:30.30PM, iter: 002, cost: 0.052717
+01/31/24 - 06:30.53PM, iter: 003, cost: 0.046897
+01/31/24 - 06:31.15PM, iter: 004, cost: 0.044204
+01/31/24 - 06:31.37PM, iter: 005, cost: 0.042542
+01/31/24 - 06:31.58PM, iter: 006, cost: 0.041400
+01/31/24 - 06:32.22PM, iter: 007, cost: 0.040579
+01/31/24 - 06:32.46PM, iter: 008, cost: 0.039912
+01/31/24 - 06:33.10PM, iter: 009, cost: 0.039371
+01/31/24 - 06:33.32PM, iter: 010, cost: 0.038930
+01/31/24 - 06:33.57PM, iter: 011, cost: 0.038580
+01/31/24 - 06:34.22PM, iter: 012, cost: 0.038233
+01/31/24 - 06:34.44PM, iter: 013, cost: 0.037948
+01/31/24 - 06:35.05PM, iter: 014, cost: 0.037704
+01/31/24 - 06:35.28PM, iter: 015, cost: 0.037509
+./demo.sh  3467.30s user 79.50s system 619% cpu 9:32.37 total
+(base) user@computer GloVe % 
+
+glove-150m-50vec
+
+(base) user@computer GloVe % time ./demo.sh
+mkdir -p build
+
+$ build/vocab_count -min-count 5 -verbose 2 < 150m.txt > vocab.txt
+BUILDING VOCABULARY
+Processed 151523090 tokens.
+Counted 3469743 unique words.
+Truncating vocabulary at min count 5.
+Using vocabulary of size 570644.
+
+$ build/cooccur -memory 48.0 -vocab-file vocab.txt -verbose 2 -window-size 15 < 150m.txt > cooccurrence.bin
+COUNTING COOCCURRENCES
+window size: 15
+context: symmetric
+max product: 144537413
+overflow length: 456340275
+Reading vocab from file "vocab.txt"...loaded 570644 words.
+Building lookup table...table contains 1259794651 elements.
+Processed 151523090 tokens.
+Writing cooccurrences to disk..........2 files in total.
+Merging cooccurrence files: processed 345349611 lines.
+
+$ build/shuffle -memory 48.0 -verbose 2 < cooccurrence.bin > cooccurrence.shuf.bin
+Using random seed 1706706710
+SHUFFLING COOCCURRENCES
+array size: 3060164198
+Shuffling by chunks: processed 345349611 lines.
+Wrote 1 temporary file(s).
+Merging temp files: processed 345349611 lines.
+
+$ build/glove -save-file vectors -threads 12 -input-file cooccurrence.shuf.bin -x-max 10 -iter 15 -vector-size 50 -binary 0 -vocab-file vocab.txt -verbose 2
+TRAINING MODEL
+Read 345349611 lines.
+Initializing parameters...Using random seed 1706706813
+done.
+vector size: 50
+vocab size: 570644
+x_max: 10.000000
+alpha: 0.750000
+01/31/24 - 06:44.09PM, iter: 001, cost: 0.076068
+01/31/24 - 06:44.43PM, iter: 002, cost: 0.053765
+01/31/24 - 06:45.16PM, iter: 003, cost: 0.048364
+01/31/24 - 06:45.49PM, iter: 004, cost: 0.045790
+01/31/24 - 06:46.20PM, iter: 005, cost: 0.044205
+01/31/24 - 06:46.51PM, iter: 006, cost: 0.043106
+01/31/24 - 06:47.23PM, iter: 007, cost: 0.042291
+01/31/24 - 06:47.55PM, iter: 008, cost: 0.041641
+01/31/24 - 06:48.29PM, iter: 009, cost: 0.041143
+01/31/24 - 06:49.03PM, iter: 010, cost: 0.040663
+01/31/24 - 06:49.36PM, iter: 011, cost: 0.040309
+01/31/24 - 06:50.08PM, iter: 012, cost: 0.039969
+01/31/24 - 06:50.39PM, iter: 013, cost: 0.039689
+01/31/24 - 06:51.10PM, iter: 014, cost: 0.039446
+01/31/24 - 06:51.42PM, iter: 015, cost: 0.039251
+./demo.sh  4896.75s user 112.58s system 619% cpu 13:28.19 total
+(base) user@computer GloVe % 
+
+glove-50m-100vec
+
+(base) user@computer GloVe % time ./demo.sh
+mkdir -p build
+
+$ build/vocab_count -min-count 5 -verbose 2 < 50m.txt > vocab.txt
+BUILDING VOCABULARY
+Processed 50507317 tokens.
+Counted 1750634 unique words.
+Truncating vocabulary at min count 5.
+Using vocabulary of size 262317.
+
+$ build/cooccur -memory 48.0 -vocab-file vocab.txt -verbose 2 -window-size 15 < 50m.txt > cooccurrence.bin
+COUNTING COOCCURRENCES
+window size: 15
+context: symmetric
+max product: 144537413
+overflow length: 456340275
+Reading vocab from file "vocab.txt"...loaded 262317 words.
+Building lookup table...table contains 1035431043 elements.
+Processed 50507317 tokens.
+Writing cooccurrences to disk..........2 files in total.
+Merging cooccurrence files: processed 141533121 lines.
+
+$ build/shuffle -memory 48.0 -verbose 2 < cooccurrence.bin > cooccurrence.shuf.bin
+Using random seed 1706707635
+SHUFFLING COOCCURRENCES
+array size: 3060164198
+Shuffling by chunks: processed 141533121 lines.
+Wrote 1 temporary file(s).
+Merging temp files: processed 141533121 lines.
+
+$ build/glove -save-file vectors -threads 12 -input-file cooccurrence.shuf.bin -x-max 10 -iter 15 -vector-size 100 -binary 0 -vocab-file vocab.txt -verbose 2
+TRAINING MODEL
+Read 141533121 lines.
+Initializing parameters...Using random seed 1706707675
+done.
+vector size: 100
+vocab size: 262317
+x_max: 10.000000
+alpha: 0.750000
+01/31/24 - 06:58.15PM, iter: 001, cost: 0.075002
+01/31/24 - 06:58.34PM, iter: 002, cost: 0.051592
+01/31/24 - 06:58.53PM, iter: 003, cost: 0.043005
+01/31/24 - 06:59.11PM, iter: 004, cost: 0.038377
+01/31/24 - 06:59.30PM, iter: 005, cost: 0.035964
+01/31/24 - 06:59.48PM, iter: 006, cost: 0.034138
+01/31/24 - 07:00.07PM, iter: 007, cost: 0.032860
+01/31/24 - 07:00.26PM, iter: 008, cost: 0.031993
+01/31/24 - 07:00.47PM, iter: 009, cost: 0.031190
+01/31/24 - 07:01.07PM, iter: 010, cost: 0.030557
+01/31/24 - 07:01.26PM, iter: 011, cost: 0.030059
+01/31/24 - 07:01.44PM, iter: 012, cost: 0.029632
+01/31/24 - 07:02.03PM, iter: 013, cost: 0.029248
+01/31/24 - 07:02.22PM, iter: 014, cost: 0.028983
+01/31/24 - 07:02.41PM, iter: 015, cost: 0.028626
+./demo.sh  2800.18s user 53.41s system 698% cpu 6:48.52 total
+(base) user@computer GloVe % 
+
+glove-100m-100vec
+
+(base) user@computer GloVe % time ./demo.sh
+mkdir -p build
+
+$ build/vocab_count -min-count 5 -verbose 2 < 100m.txt > vocab.txt
+BUILDING VOCABULARY
+Processed 101026212 tokens.
+Counted 2705792 unique words.
+Truncating vocabulary at min count 5.
+Using vocabulary of size 427249.
+
+$ build/cooccur -memory 48.0 -vocab-file vocab.txt -verbose 2 -window-size 15 < 100m.txt > cooccurrence.bin
+COUNTING COOCCURRENCES
+window size: 15
+context: symmetric
+max product: 144537413
+overflow length: 456340275
+Reading vocab from file "vocab.txt"...loaded 427249 words.
+Building lookup table...table contains 1176280327 elements.
+Processed 101026212 tokens.
+Writing cooccurrences to disk..........2 files in total.
+Merging cooccurrence files: processed 249507347 lines.
+
+$ build/shuffle -memory 48.0 -verbose 2 < cooccurrence.bin > cooccurrence.shuf.bin
+Using random seed 1706708408
+SHUFFLING COOCCURRENCES
+array size: 3060164198
+Shuffling by chunks: processed 249507347 lines.
+Wrote 1 temporary file(s).
+Merging temp files: processed 249507347 lines.
+
+$ build/glove -save-file vectors -threads 12 -input-file cooccurrence.shuf.bin -x-max 10 -iter 15 -vector-size 100 -binary 0 -vocab-file vocab.txt -verbose 2
+TRAINING MODEL
+Read 249507347 lines.
+Initializing parameters...Using random seed 1706708480
+done.
+vector size: 100
+vocab size: 427249
+x_max: 10.000000
+alpha: 0.750000
+01/31/24 - 07:11.58PM, iter: 001, cost: 0.075729
+01/31/24 - 07:12.34PM, iter: 002, cost: 0.051788
+01/31/24 - 07:13.07PM, iter: 003, cost: 0.043912
+01/31/24 - 07:13.41PM, iter: 004, cost: 0.039998
+01/31/24 - 07:14.14PM, iter: 005, cost: 0.037779
+01/31/24 - 07:14.47PM, iter: 006, cost: 0.036275
+01/31/24 - 07:15.21PM, iter: 007, cost: 0.035200
+01/31/24 - 07:15.58PM, iter: 008, cost: 0.034425
+01/31/24 - 07:16.32PM, iter: 009, cost: 0.033703
+01/31/24 - 07:17.07PM, iter: 010, cost: 0.033087
+01/31/24 - 07:17.41PM, iter: 011, cost: 0.032625
+01/31/24 - 07:18.15PM, iter: 012, cost: 0.032178
+01/31/24 - 07:18.48PM, iter: 013, cost: 0.031811
+01/31/24 - 07:19.23PM, iter: 014, cost: 0.031507
+01/31/24 - 07:19.56PM, iter: 015, cost: 0.031245
+./demo.sh  4995.51s user 94.45s system 682% cpu 12:25.66 total
+(base) user@computer GloVe % 
+
+glove-150m-100vec
+
+(base) user@computer GloVe % time ./demo.sh
+mkdir -p build
+
+$ build/vocab_count -min-count 5 -verbose 2 < 150m.txt > vocab.txt
+BUILDING VOCABULARY
+Processed 151523090 tokens.
+Counted 3469743 unique words.
+Truncating vocabulary at min count 5.
+Using vocabulary of size 570644.
+
+$ build/cooccur -memory 48.0 -vocab-file vocab.txt -verbose 2 -window-size 15 < 150m.txt > cooccurrence.bin
+COUNTING COOCCURRENCES
+window size: 15
+context: symmetric
+max product: 144537413
+overflow length: 456340275
+Reading vocab from file "vocab.txt"...loaded 570644 words.
+Building lookup table...table contains 1259794651 elements.
+Processed 151523090 tokens.
+Writing cooccurrences to disk..........2 files in total.
+Merging cooccurrence files: processed 345349611 lines.
+
+$ build/shuffle -memory 48.0 -verbose 2 < cooccurrence.bin > cooccurrence.shuf.bin
+Using random seed 1706709419
+SHUFFLING COOCCURRENCES
+array size: 3060164198
+Shuffling by chunks: processed 345349611 lines.
+Wrote 1 temporary file(s).
+Merging temp files: processed 345349611 lines.
+
+$ build/glove -save-file vectors -threads 12 -input-file cooccurrence.shuf.bin -x-max 10 -iter 15 -vector-size 100 -binary 0 -vocab-file vocab.txt -verbose 2
+TRAINING MODEL
+Read 345349611 lines.
+Initializing parameters...Using random seed 1706709522
+done.
+vector size: 100
+vocab size: 570644
+x_max: 10.000000
+alpha: 0.750000
+01/31/24 - 07:29.34PM, iter: 001, cost: 0.076400
+01/31/24 - 07:30.21PM, iter: 002, cost: 0.052255
+01/31/24 - 07:31.08PM, iter: 003, cost: 0.044760
+01/31/24 - 07:31.55PM, iter: 004, cost: 0.041244
+01/31/24 - 07:32.46PM, iter: 005, cost: 0.039320
+01/31/24 - 07:33.34PM, iter: 006, cost: 0.037709
+01/31/24 - 07:34.25PM, iter: 007, cost: 0.036627
+01/31/24 - 07:35.16PM, iter: 008, cost: 0.035806
+01/31/24 - 07:36.03PM, iter: 009, cost: 0.035148
+01/31/24 - 07:36.51PM, iter: 010, cost: 0.034603
+01/31/24 - 07:37.38PM, iter: 011, cost: 0.034176
+01/31/24 - 07:38.25PM, iter: 012, cost: 0.033772
+01/31/24 - 07:39.12PM, iter: 013, cost: 0.033412
+01/31/24 - 07:40.00PM, iter: 014, cost: 0.033113
+01/31/24 - 07:40.48PM, iter: 015, cost: 0.032915
+./demo.sh  7048.54s user 136.64s system 677% cpu 17:41.24 total
+(base) user@computer GloVe % 
+
+glove-50m-150vec
+
+(base) user@computer GloVe % time ./demo.sh
+mkdir -p build
+
+$ build/vocab_count -min-count 5 -verbose 2 < 50m.txt > vocab.txt
+BUILDING VOCABULARY
+Processed 50507317 tokens.
+Counted 1750634 unique words.
+Truncating vocabulary at min count 5.
+Using vocabulary of size 262317.
+
+$ build/cooccur -memory 48.0 -vocab-file vocab.txt -verbose 2 -window-size 15 < 50m.txt > cooccurrence.bin
+COUNTING COOCCURRENCES
+window size: 15
+context: symmetric
+max product: 144537413
+overflow length: 456340275
+Reading vocab from file "vocab.txt"...loaded 262317 words.
+Building lookup table...table contains 1035431043 elements.
+Processed 50507317 tokens.
+Writing cooccurrences to disk..........2 files in total.
+Merging cooccurrence files: processed 141533121 lines.
+
+$ build/shuffle -memory 48.0 -verbose 2 < cooccurrence.bin > cooccurrence.shuf.bin
+Using random seed 1706710488
+SHUFFLING COOCCURRENCES
+array size: 3060164198
+Shuffling by chunks: processed 141533121 lines.
+Wrote 1 temporary file(s).
+Merging temp files: processed 141533121 lines.
+
+$ build/glove -save-file vectors -threads 12 -input-file cooccurrence.shuf.bin -x-max 10 -iter 15 -vector-size 150 -binary 0 -vocab-file vocab.txt -verbose 2
+TRAINING MODEL
+Read 141533121 lines.
+Initializing parameters...Using random seed 1706710529
+done.
+vector size: 150
+vocab size: 262317
+x_max: 10.000000
+alpha: 0.750000
+01/31/24 - 07:45.54PM, iter: 001, cost: 0.075223
+01/31/24 - 07:46.19PM, iter: 002, cost: 0.051783
+01/31/24 - 07:46.42PM, iter: 003, cost: 0.042562
+01/31/24 - 07:47.05PM, iter: 004, cost: 0.037063
+01/31/24 - 07:47.33PM, iter: 005, cost: 0.034009
+01/31/24 - 07:47.58PM, iter: 006, cost: 0.031752
+01/31/24 - 07:48.23PM, iter: 007, cost: 0.030180
+01/31/24 - 07:48.47PM, iter: 008, cost: 0.029042
+01/31/24 - 07:49.13PM, iter: 009, cost: 0.028305
+01/31/24 - 07:49.37PM, iter: 010, cost: 0.027458
+01/31/24 - 07:50.01PM, iter: 011, cost: 0.026809
+01/31/24 - 07:50.25PM, iter: 012, cost: 0.026339
+01/31/24 - 07:50.51PM, iter: 013, cost: 0.025876
+01/31/24 - 07:51.16PM, iter: 014, cost: 0.025495
+01/31/24 - 07:51.41PM, iter: 015, cost: 0.025145
+./demo.sh  3608.31s user 61.20s system 737% cpu 8:17.73 total
+(base) user@computer GloVe % 
+
+glove-100m-150vec
+
+(base) user@computer GloVe % time ./demo.sh
+mkdir -p build
+
+$ build/vocab_count -min-count 5 -verbose 2 < 100m.txt > vocab.txt
+BUILDING VOCABULARY
+Processed 101026212 tokens.
+Counted 2705792 unique words.
+Truncating vocabulary at min count 5.
+Using vocabulary of size 427249.
+
+$ build/cooccur -memory 48.0 -vocab-file vocab.txt -verbose 2 -window-size 15 < 100m.txt > cooccurrence.bin
+COUNTING COOCCURRENCES
+window size: 15
+context: symmetric
+max product: 144537413
+overflow length: 456340275
+Reading vocab from file "vocab.txt"...loaded 427249 words.
+Building lookup table...table contains 1176280327 elements.
+Processed 101026212 tokens.
+Writing cooccurrences to disk..........2 files in total.
+Merging cooccurrence files: processed 249507347 lines.
+
+$ build/shuffle -memory 48.0 -verbose 2 < cooccurrence.bin > cooccurrence.shuf.bin
+Using random seed 1706711239
+SHUFFLING COOCCURRENCES
+array size: 3060164198
+Shuffling by chunks: processed 249507347 lines.
+Wrote 1 temporary file(s).
+Merging temp files: processed 249507347 lines.
+
+$ build/glove -save-file vectors -threads 12 -input-file cooccurrence.shuf.bin -x-max 10 -iter 15 -vector-size 150 -binary 0 -vocab-file vocab.txt -verbose 2
+TRAINING MODEL
+Read 249507347 lines.
+Initializing parameters...Using random seed 1706711309
+done.
+vector size: 150
+vocab size: 427249
+x_max: 10.000000
+alpha: 0.750000
+01/31/24 - 07:59.11PM, iter: 001, cost: 0.076039
+01/31/24 - 07:59.51PM, iter: 002, cost: 0.051681
+01/31/24 - 08:00.30PM, iter: 003, cost: 0.042863
+01/31/24 - 08:01.11PM, iter: 004, cost: 0.038094
+01/31/24 - 08:01.52PM, iter: 005, cost: 0.035349
+01/31/24 - 08:02.32PM, iter: 006, cost: 0.033528
+01/31/24 - 08:03.12PM, iter: 007, cost: 0.032226
+01/31/24 - 08:03.52PM, iter: 008, cost: 0.031227
+01/31/24 - 08:04.32PM, iter: 009, cost: 0.030440
+01/31/24 - 08:05.13PM, iter: 010, cost: 0.029780
+01/31/24 - 08:05.53PM, iter: 011, cost: 0.029248
+01/31/24 - 08:06.33PM, iter: 012, cost: 0.028775
+01/31/24 - 08:07.13PM, iter: 013, cost: 0.028357
+01/31/24 - 08:07.53PM, iter: 014, cost: 0.028004
+01/31/24 - 08:08.33PM, iter: 015, cost: 0.027737
+./demo.sh  6607.51s user 90.61s system 800% cpu 13:56.89 total
+(base) user@computer GloVe % 
+
+glove-150m-150vec
+
+(base) user@computer GloVe % time ./demo.sh
+mkdir -p build
+
+$ build/vocab_count -min-count 5 -verbose 2 < 150m.txt > vocab.txt
+BUILDING VOCABULARY
+Processed 151523090 tokens.
+Counted 3469743 unique words.
+Truncating vocabulary at min count 5.
+Using vocabulary of size 570644.
+
+$ build/cooccur -memory 48.0 -vocab-file vocab.txt -verbose 2 -window-size 15 < 150m.txt > cooccurrence.bin
+COUNTING COOCCURRENCES
+window size: 15
+context: symmetric
+max product: 144537413
+overflow length: 456340275
+Reading vocab from file "vocab.txt"...loaded 570644 words.
+Building lookup table...table contains 1259794651 elements.
+Processed 151523090 tokens.
+Writing cooccurrences to disk..........2 files in total.
+Merging cooccurrence files: processed 345349611 lines.
+
+$ build/shuffle -memory 48.0 -verbose 2 < cooccurrence.bin > cooccurrence.shuf.bin
+Using random seed 1706714067
+SHUFFLING COOCCURRENCES
+array size: 3060164198
+Shuffling by chunks: processed 345349611 lines.
+Wrote 1 temporary file(s).
+Merging temp files: processed 345349611 lines.
+
+$ build/glove -save-file vectors -threads 12 -input-file cooccurrence.shuf.bin -x-max 10 -iter 15 -vector-size 150 -binary 0 -vocab-file vocab.txt -verbose 2
+TRAINING MODEL
+Read 345349611 lines.
+Initializing parameters...Using random seed 1706714172
+done.
+vector size: 150
+vocab size: 570644
+x_max: 10.000000
+alpha: 0.750000
+01/31/24 - 08:47.20PM, iter: 001, cost: 0.076655
+01/31/24 - 08:48.28PM, iter: 002, cost: 0.052050
+01/31/24 - 08:49.32PM, iter: 003, cost: 0.043497
+01/31/24 - 08:50.34PM, iter: 004, cost: 0.039072
+01/31/24 - 08:51.43PM, iter: 005, cost: 0.036651
+01/31/24 - 08:52.43PM, iter: 006, cost: 0.034829
+01/31/24 - 08:53.43PM, iter: 007, cost: 0.033522
+01/31/24 - 08:54.49PM, iter: 008, cost: 0.032757
+01/31/24 - 08:55.50PM, iter: 009, cost: 0.031839
+01/31/24 - 08:56.51PM, iter: 010, cost: 0.031170
+01/31/24 - 08:57.52PM, iter: 011, cost: 0.030660
+01/31/24 - 08:58.52PM, iter: 012, cost: 0.030364
+01/31/24 - 08:59.51PM, iter: 013, cost: 0.029895
+01/31/24 - 09:00.49PM, iter: 014, cost: 0.029522
+01/31/24 - 09:02.01PM, iter: 015, cost: 0.029239
+./demo.sh  8834.71s user 150.82s system 707% cpu 21:09.77 total
+(base) user@computer GloVe % 
+
+make fastText
+
+(base) user@computer fastText-0.9.2 % time make
+c++ -pthread -std=c++11 -march=native -O3 -funroll-loops -DNDEBUG -c src/args.cc
+c++ -pthread -std=c++11 -march=native -O3 -funroll-loops -DNDEBUG -c src/autotune.cc
+c++ -pthread -std=c++11 -march=native -O3 -funroll-loops -DNDEBUG -c src/matrix.cc
+c++ -pthread -std=c++11 -march=native -O3 -funroll-loops -DNDEBUG -c src/dictionary.cc
+c++ -pthread -std=c++11 -march=native -O3 -funroll-loops -DNDEBUG -c src/loss.cc
+c++ -pthread -std=c++11 -march=native -O3 -funroll-loops -DNDEBUG -c src/productquantizer.cc
+c++ -pthread -std=c++11 -march=native -O3 -funroll-loops -DNDEBUG -c src/densematrix.cc
+c++ -pthread -std=c++11 -march=native -O3 -funroll-loops -DNDEBUG -c src/quantmatrix.cc
+c++ -pthread -std=c++11 -march=native -O3 -funroll-loops -DNDEBUG -c src/vector.cc
+c++ -pthread -std=c++11 -march=native -O3 -funroll-loops -DNDEBUG -c src/model.cc
+c++ -pthread -std=c++11 -march=native -O3 -funroll-loops -DNDEBUG -c src/utils.cc
+c++ -pthread -std=c++11 -march=native -O3 -funroll-loops -DNDEBUG -c src/meter.cc
+c++ -pthread -std=c++11 -march=native -O3 -funroll-loops -DNDEBUG -c src/fasttext.cc
+c++ -pthread -std=c++11 -march=native -O3 -funroll-loops -DNDEBUG args.o autotune.o matrix.o dictionary.o loss.o productquantizer.o densematrix.o quantmatrix.o vector.o model.o utils.o meter.o fasttext.o src/main.cc -o fasttext
+make  14.40s user 1.70s system 78% cpu 20.476 total
+(base) user@computer fastText-0.9.2 % 
+
+fastText-50m-50vec
+
+(base) user@computer fastText-0.9.2 % time ./fasttext skipgram -input 50m.txt -dim 50 -output vectors -minCount 5 -thread 12 -ws 15
+Read 53M words
+Number of words:  262318
+Number of labels: 0
+Progress: 100.0% words/sec/thread:   60624 lr:  0.000000 avg.loss:  0.778637 ETA:   0h 0m 0s
+./fasttext skipgram -input 50m.txt -dim 50 -output vectors -minCount 5 -threa  3462.62s user 26.41s system 931% cpu 6:14.47 total
+(base) user@computer fastText-0.9.2 % 
+
+fastText-100m-50vec
+
+(base) user@computer fastText-0.9.2 % time ./fasttext skipgram -input 100m.txt -dim 50 -output vectors -minCount 5 -thread 12 -ws 15
+Read 106M words
+Number of words:  427250
+Number of labels: 0
+Progress: 100.0% words/sec/thread:   59635 lr:  0.000000 avg.loss:  0.460136 ETA:   0h 0m 0s
+./fasttext skipgram -input 100m.txt -dim 50 -output vectors -minCount 5  12    7244.03s user 58.14s system 962% cpu 12:38.38 total
+(base) user@computer fastText-0.9.2 % 
+
+fastText-150m-50vec
+
+(base) user@computer fastText-0.9.2 % time ./fasttext skipgram -input 150m.txt -dim 50 -output vectors -minCount 5 -thread 12 -ws 15
+Read 159M words
+Number of words:  570645
+Number of labels: 0
+Progress: 100.0% words/sec/thread:   65547 lr:  0.000000 avg.loss:  0.321896 ETA:   0h 0m 0s
+./fasttext skipgram -input 150m.txt -dim 50 -output vectors -minCount 5  12    9976.06s user 71.22s system 970% cpu 17:15.41 total
+(base) user@computer fastText-0.9.2 % 
+
+
+fastText-50m-100vec
+
+(base) user@computer fastText-0.9.2 % time ./fasttext skipgram -input 50m.txt -dim 100 -output vectors -minCount 5 -thread 12 -ws 15
+Read 53M words
+Number of words:  262318
+Number of labels: 0
+Progress: 100.0% words/sec/thread:   46066 lr:  0.000000 avg.loss:  0.884492 ETA:   0h 0m 0s
+./fasttext skipgram -input 50m.txt -dim 100 -output vectors -minCount 5  12    4824.95s user 37.38s system 985% cpu 8:13.39 total
+(base) user@computer fastText-0.9.2 % 
+
+fastText-100m-100vec
+
+(base) user@computer fastText-0.9.2 % time ./fasttext skipgram -input 100m.txt -dim 100 -output vectors -minCount 5 -thread 12 -ws 15
+Read 106M words
+Number of words:  427250
+Number of labels: 0
+Progress: 100.0% words/sec/thread:   41133 lr:  0.000000 avg.loss:  0.558152 ETA:   0h 0m 0s
+./fasttext skipgram -input 100m.txt -dim 100 -output vectors -minCount 5  12   10660.10s user 78.49s system 976% cpu 18:19.31 total
+(base) user@computer fastText-0.9.2 % 
+
+fastText-150m-100vec
+
+(base) user@computer fastText-0.9.2 % time ./fasttext skipgram -input 150m.txt -dim 100 -output vectors -minCount 5 -thread 12 -ws 15
+Read 159M words
+Number of words:  570645
+Number of labels: 0
+Progress: 100.0% words/sec/thread:   44398 lr:  0.000000 avg.loss:  0.367869 ETA:   0h 0m 0s
+./fasttext skipgram -input 150m.txt -dim 100 -output vectors -minCount 5  12   14492.79s user 111.64s system 957% cpu 25:25.53 total
+(base) user@computer fastText-0.9.2 % 
+
+fastText-50m-150vec
+
+(base) user@computer fastText-0.9.2 % time ./fasttext skipgram -input 50m.txt -dim 150 -output vectors -minCount 5 -thread 12 -ws 15
+Read 53M words
+Number of words:  262318
+Number of labels: 0
+Progress: 100.0% words/sec/thread:   31008 lr:  0.000000 avg.loss:  0.748817 ETA:   0h 0m 0s
+./fasttext skipgram -input 50m.txt -dim 150 -output vectors -minCount 5  12    6933.59s user 52.64s system 955% cpu 12:11.35 total
+(base) user@computer fastText-0.9.2 % 
+
+fastText-100m-150vec
+
+(base) user@computer fastText-0.9.2 % time ./fasttext skipgram -input 100m.txt -dim 150 -output vectors -minCount 5 -thread 12 -ws 15
+Read 106M words
+Number of words:  427250
+Number of labels: 0
+Progress: 100.0% words/sec/thread:   33616 lr:  0.000000 avg.loss:  0.562957 ETA:   0h 0m 0s
+./fasttext skipgram -input 100m.txt -dim 150 -output vectors -minCount 5  12   14441.55s user 75.23s system 1079% cpu 22:25.18 total
+(base) user@computer fastText-0.9.2 % 
+
+fastText-150m-150vec
+
+(base) user@computer fastText-0.9.2 % time ./fasttext skipgram -input 150m.txt -dim 150 -output vectors -minCount 5 -thread 12 -ws 15
+Read 159M words
+Number of words:  570645
+Number of labels: 0
+Progress: 100.0% words/sec/thread:   26813 lr:  0.000000 avg.loss:  0.355794 ETA:   0h 0m 0s
+./fasttext skipgram -input 150m.txt -dim 150 -output vectors -minCount 5  12   21215.46s user 112.65s system 848% cpu 41:52.98 total
+(base) user@computer fastText-0.9.2 % 
+
+convert glove vectors to word2vec compatible via GloVe
+
+(base) user@computer results % time python -u ee_results.py
+Intel MKL WARNING: Support of Intel(R) Streaming SIMD Extensions 4.2 (Intel(R) SSE4.2) enabled only processors has been deprecated. Intel oneAPI Math Kernel Library 2025.0 will require Intel(R) Advanced Vector Extensions (Intel(R) AVX) instructions.
+Intel MKL WARNING: Support of Intel(R) Streaming SIMD Extensions 4.2 (Intel(R) SSE4.2) enabled only processors has been deprecated. Intel oneAPI Math Kernel Library 2025.0 will require Intel(R) Advanced Vector Extensions (Intel(R) AVX) instructions.
+ee_results.py:52: DeprecationWarning: Call to deprecated `glove2word2vec` (KeyedVectors.load_word2vec_format(.., binary=False, no_header=True) loads GLoVE text vectors.).
+  _ = glove2word2vec(glove_file_1, tmp_file_1)
+ee_results.py:53: DeprecationWarning: Call to deprecated `glove2word2vec` (KeyedVectors.load_word2vec_format(.., binary=False, no_header=True) loads GLoVE text vectors.).
+  _ = glove2word2vec(glove_file_2, tmp_file_2)
+ee_results.py:54: DeprecationWarning: Call to deprecated `glove2word2vec` (KeyedVectors.load_word2vec_format(.., binary=False, no_header=True) loads GLoVE text vectors.).
+  _ = glove2word2vec(glove_file_3, tmp_file_3)
+ee_results.py:55: DeprecationWarning: Call to deprecated `glove2word2vec` (KeyedVectors.load_word2vec_format(.., binary=False, no_header=True) loads GLoVE text vectors.).
+  _ = glove2word2vec(glove_file_4, tmp_file_4)
+ee_results.py:56: DeprecationWarning: Call to deprecated `glove2word2vec` (KeyedVectors.load_word2vec_format(.., binary=False, no_header=True) loads GLoVE text vectors.).
+  _ = glove2word2vec(glove_file_5, tmp_file_5)
+ee_results.py:57: DeprecationWarning: Call to deprecated `glove2word2vec` (KeyedVectors.load_word2vec_format(.., binary=False, no_header=True) loads GLoVE text vectors.).
+  _ = glove2word2vec(glove_file_6, tmp_file_6)
+ee_results.py:58: DeprecationWarning: Call to deprecated `glove2word2vec` (KeyedVectors.load_word2vec_format(.., binary=False, no_header=True) loads GLoVE text vectors.).
+  _ = glove2word2vec(glove_file_7, tmp_file_7)
+ee_results.py:59: DeprecationWarning: Call to deprecated `glove2word2vec` (KeyedVectors.load_word2vec_format(.., binary=False, no_header=True) loads GLoVE text vectors.).
+  _ = glove2word2vec(glove_file_8, tmp_file_8)
+Traceback (most recent call last):
+  File "ee_results.py", line 60, in <module>
+    _ = glove2word2vec(glove_file_9, tmp_file_9)
+NameError: name 'glove_file_9' is not defined
+python -u ee_results.py  271.74s user 9.33s system 99% cpu 4:43.38 total
+(base) user@computer results % 
+
+final-output
+
+(base) user@computer results % time python -u results.py
+Intel MKL WARNING: Support of Intel(R) Streaming SIMD Extensions 4.2 (Intel(R) SSE4.2) enabled only processors has been deprecated. Intel oneAPI Math Kernel Library 2025.0 will require Intel(R) Advanced Vector Extensions (Intel(R) AVX) instructions.
+Intel MKL WARNING: Support of Intel(R) Streaming SIMD Extensions 4.2 (Intel(R) SSE4.2) enabled only processors has been deprecated. Intel oneAPI Math Kernel Library 2025.0 will require Intel(R) Advanced Vector Extensions (Intel(R) AVX) instructions.
+results.py:48: DeprecationWarning: Call to deprecated `glove2word2vec` (KeyedVectors.load_word2vec_format(.., binary=False, no_header=True) loads GLoVE text vectors.).
+  _ = glove2word2vec(
+results.py:50: DeprecationWarning: Call to deprecated `glove2word2vec` (KeyedVectors.load_word2vec_format(.., binary=False, no_header=True) loads GLoVE text vectors.).
+  _ = glove2word2vec(
+results.py:52: DeprecationWarning: Call to deprecated `glove2word2vec` (KeyedVectors.load_word2vec_format(.., binary=False, no_header=True) loads GLoVE text vectors.).
+  _ = glove2word2vec(
+results.py:55: DeprecationWarning: Call to deprecated `glove2word2vec` (KeyedVectors.load_word2vec_format(.., binary=False, no_header=True) loads GLoVE text vectors.).
+  _ = glove2word2vec(
+results.py:57: DeprecationWarning: Call to deprecated `glove2word2vec` (KeyedVectors.load_word2vec_format(.., binary=False, no_header=True) loads GLoVE text vectors.).
+  _ = glove2word2vec(
+results.py:59: DeprecationWarning: Call to deprecated `glove2word2vec` (KeyedVectors.load_word2vec_format(.., binary=False, no_header=True) loads GLoVE text vectors.).
+  _ = glove2word2vec(
+results.py:62: DeprecationWarning: Call to deprecated `glove2word2vec` (KeyedVectors.load_word2vec_format(.., binary=False, no_header=True) loads GLoVE text vectors.).
+  _ = glove2word2vec(
+results.py:64: DeprecationWarning: Call to deprecated `glove2word2vec` (KeyedVectors.load_word2vec_format(.., binary=False, no_header=True) loads GLoVE text vectors.).
+  _ = glove2word2vec(
+results.py:66: DeprecationWarning: Call to deprecated `glove2word2vec` (KeyedVectors.load_word2vec_format(.., binary=False, no_header=True) loads GLoVE text vectors.).
+  _ = glove2word2vec(
+Intel MKL WARNING: Support of Intel(R) Streaming SIMD Extensions 4.2 (Intel(R) SSE4.2) enabled only processors has been deprecated. Intel oneAPI Math Kernel Library 2025.0 will require Intel(R) Advanced Vector Extensions (Intel(R) AVX) instructions.
+Intel MKL WARNING: Support of Intel(R) Streaming SIMD Extensions 4.2 (Intel(R) SSE4.2) enabled only processors has been deprecated. Intel oneAPI Math Kernel Library 2025.0 will require Intel(R) Advanced Vector Extensions (Intel(R) AVX) instructions.
+Intel MKL WARNING: Support of Intel(R) Streaming SIMD Extensions 4.2 (Intel(R) SSE4.2) enabled only processors has been deprecated. Intel oneAPI Math Kernel Library 2025.0 will require Intel(R) Advanced Vector Extensions (Intel(R) AVX) instructions.
+Intel MKL WARNING: Support of Intel(R) Streaming SIMD Extensions 4.2 (Intel(R) SSE4.2) enabled only processors has been deprecated. Intel oneAPI Math Kernel Library 2025.0 will require Intel(R) Advanced Vector Extensions (Intel(R) AVX) instructions.
+Intel MKL WARNING: Support of Intel(R) Streaming SIMD Extensions 4.2 (Intel(R) SSE4.2) enabled only processors has been deprecated. Intel oneAPI Math Kernel Library 2025.0 will require Intel(R) Advanced Vector Extensions (Intel(R) AVX) instructions.
+Intel MKL WARNING: Support of Intel(R) Streaming SIMD Extensions 4.2 (Intel(R) SSE4.2) enabled only processors has been deprecated. Intel oneAPI Math Kernel Library 2025.0 will require Intel(R) Advanced Vector Extensions (Intel(R) AVX) instructions.
+Intel MKL WARNING: Support of Intel(R) Streaming SIMD Extensions 4.2 (Intel(R) SSE4.2) enabled only processors has been deprecated. Intel oneAPI Math Kernel Library 2025.0 will require Intel(R) Advanced Vector Extensions (Intel(R) AVX) instructions.
+Intel MKL WARNING: Support of Intel(R) Streaming SIMD Extensions 4.2 (Intel(R) SSE4.2) enabled only processors has been deprecated. Intel oneAPI Math Kernel Library 2025.0 will require Intel(R) Advanced Vector Extensions (Intel(R) AVX) instructions.
+Intel MKL WARNING: Support of Intel(R) Streaming SIMD Extensions 4.2 (Intel(R) SSE4.2) enabled only processors has been deprecated. Intel oneAPI Math Kernel Library 2025.0 will require Intel(R) Advanced Vector Extensions (Intel(R) AVX) instructions.
+Intel MKL WARNING: Support of Intel(R) Streaming SIMD Extensions 4.2 (Intel(R) SSE4.2) enabled only processors has been deprecated. Intel oneAPI Math Kernel Library 2025.0 will require Intel(R) Advanced Vector Extensions (Intel(R) AVX) instructions.
+Intel MKL WARNING: Support of Intel(R) Streaming SIMD Extensions 4.2 (Intel(R) SSE4.2) enabled only processors has been deprecated. Intel oneAPI Math Kernel Library 2025.0 will require Intel(R) Advanced Vector Extensions (Intel(R) AVX) instructions.
+Intel MKL WARNING: Support of Intel(R) Streaming SIMD Extensions 4.2 (Intel(R) SSE4.2) enabled only processors has been deprecated. Intel oneAPI Math Kernel Library 2025.0 will require Intel(R) Advanced Vector Extensions (Intel(R) AVX) instructions.
+Intel MKL WARNING: Support of Intel(R) Streaming SIMD Extensions 4.2 (Intel(R) SSE4.2) enabled only processors has been deprecated. Intel oneAPI Math Kernel Library 2025.0 will require Intel(R) Advanced Vector Extensions (Intel(R) AVX) instructions.
+Intel MKL WARNING: Support of Intel(R) Streaming SIMD Extensions 4.2 (Intel(R) SSE4.2) enabled only processors has been deprecated. Intel oneAPI Math Kernel Library 2025.0 will require Intel(R) Advanced Vector Extensions (Intel(R) AVX) instructions.
+Intel MKL WARNING: Support of Intel(R) Streaming SIMD Extensions 4.2 (Intel(R) SSE4.2) enabled only processors has been deprecated. Intel oneAPI Math Kernel Library 2025.0 will require Intel(R) Advanced Vector Extensions (Intel(R) AVX) instructions.
+Intel MKL WARNING: Support of Intel(R) Streaming SIMD Extensions 4.2 (Intel(R) SSE4.2) enabled only processors has been deprecated. Intel oneAPI Math Kernel Library 2025.0 will require Intel(R) Advanced Vector Extensions (Intel(R) AVX) instructions.
+Intel MKL WARNING: Support of Intel(R) Streaming SIMD Extensions 4.2 (Intel(R) SSE4.2) enabled only processors has been deprecated. Intel oneAPI Math Kernel Library 2025.0 will require Intel(R) Advanced Vector Extensions (Intel(R) AVX) instructions.
+Intel MKL WARNING: Support of Intel(R) Streaming SIMD Extensions 4.2 (Intel(R) SSE4.2) enabled only processors has been deprecated. Intel oneAPI Math Kernel Library 2025.0 will require Intel(R) Advanced Vector Extensions (Intel(R) AVX) instructions.
+Intel MKL WARNING: Support of Intel(R) Streaming SIMD Extensions 4.2 (Intel(R) SSE4.2) enabled only processors has been deprecated. Intel oneAPI Math Kernel Library 2025.0 will require Intel(R) Advanced Vector Extensions (Intel(R) AVX) instructions.
+Intel MKL WARNING: Support of Intel(R) Streaming SIMD Extensions 4.2 (Intel(R) SSE4.2) enabled only processors has been deprecated. Intel oneAPI Math Kernel Library 2025.0 will require Intel(R) Advanced Vector Extensions (Intel(R) AVX) instructions.
+Intel MKL WARNING: Support of Intel(R) Streaming SIMD Extensions 4.2 (Intel(R) SSE4.2) enabled only processors has been deprecated. Intel oneAPI Math Kernel Library 2025.0 will require Intel(R) Advanced Vector Extensions (Intel(R) AVX) instructions.
+Intel MKL WARNING: Support of Intel(R) Streaming SIMD Extensions 4.2 (Intel(R) SSE4.2) enabled only processors has been deprecated. Intel oneAPI Math Kernel Library 2025.0 will require Intel(R) Advanced Vector Extensions (Intel(R) AVX) instructions.
+Intel MKL WARNING: Support of Intel(R) Streaming SIMD Extensions 4.2 (Intel(R) SSE4.2) enabled only processors has been deprecated. Intel oneAPI Math Kernel Library 2025.0 will require Intel(R) Advanced Vector Extensions (Intel(R) AVX) instructions.
+Intel MKL WARNING: Support of Intel(R) Streaming SIMD Extensions 4.2 (Intel(R) SSE4.2) enabled only processors has been deprecated. Intel oneAPI Math Kernel Library 2025.0 will require Intel(R) Advanced Vector Extensions (Intel(R) AVX) instructions.
+Intel MKL WARNING: Support of Intel(R) Streaming SIMD Extensions 4.2 (Intel(R) SSE4.2) enabled only processors has been deprecated. Intel oneAPI Math Kernel Library 2025.0 will require Intel(R) Advanced Vector Extensions (Intel(R) AVX) instructions.
+Intel MKL WARNING: Support of Intel(R) Streaming SIMD Extensions 4.2 (Intel(R) SSE4.2) enabled only processors has been deprecated. Intel oneAPI Math Kernel Library 2025.0 will require Intel(R) Advanced Vector Extensions (Intel(R) AVX) instructions.
+Intel MKL WARNING: Support of Intel(R) Streaming SIMD Extensions 4.2 (Intel(R) SSE4.2) enabled only processors has been deprecated. Intel oneAPI Math Kernel Library 2025.0 will require Intel(R) Advanced Vector Extensions (Intel(R) AVX) instructions.
+Intel MKL WARNING: Support of Intel(R) Streaming SIMD Extensions 4.2 (Intel(R) SSE4.2) enabled only processors has been deprecated. Intel oneAPI Math Kernel Library 2025.0 will require Intel(R) Advanced Vector Extensions (Intel(R) AVX) instructions.
+Intel MKL WARNING: Support of Intel(R) Streaming SIMD Extensions 4.2 (Intel(R) SSE4.2) enabled only processors has been deprecated. Intel oneAPI Math Kernel Library 2025.0 will require Intel(R) Advanced Vector Extensions (Intel(R) AVX) instructions.
+Intel MKL WARNING: Support of Intel(R) Streaming SIMD Extensions 4.2 (Intel(R) SSE4.2) enabled only processors has been deprecated. Intel oneAPI Math Kernel Library 2025.0 will require Intel(R) Advanced Vector Extensions (Intel(R) AVX) instructions.
+Intel MKL WARNING: Support of Intel(R) Streaming SIMD Extensions 4.2 (Intel(R) SSE4.2) enabled only processors has been deprecated. Intel oneAPI Math Kernel Library 2025.0 will require Intel(R) Advanced Vector Extensions (Intel(R) AVX) instructions.
+Intel MKL WARNING: Support of Intel(R) Streaming SIMD Extensions 4.2 (Intel(R) SSE4.2) enabled only processors has been deprecated. Intel oneAPI Math Kernel Library 2025.0 will require Intel(R) Advanced Vector Extensions (Intel(R) AVX) instructions.
+Intel MKL WARNING: Support of Intel(R) Streaming SIMD Extensions 4.2 (Intel(R) SSE4.2) enabled only processors has been deprecated. Intel oneAPI Math Kernel Library 2025.0 will require Intel(R) Advanced Vector Extensions (Intel(R) AVX) instructions.
+Intel MKL WARNING: Support of Intel(R) Streaming SIMD Extensions 4.2 (Intel(R) SSE4.2) enabled only processors has been deprecated. Intel oneAPI Math Kernel Library 2025.0 will require Intel(R) Advanced Vector Extensions (Intel(R) AVX) instructions.
+Intel MKL WARNING: Support of Intel(R) Streaming SIMD Extensions 4.2 (Intel(R) SSE4.2) enabled only processors has been deprecated. Intel oneAPI Math Kernel Library 2025.0 will require Intel(R) Advanced Vector Extensions (Intel(R) AVX) instructions.
+Intel MKL WARNING: Support of Intel(R) Streaming SIMD Extensions 4.2 (Intel(R) SSE4.2) enabled only processors has been deprecated. Intel oneAPI Math Kernel Library 2025.0 will require Intel(R) Advanced Vector Extensions (Intel(R) AVX) instructions.
+Intel MKL WARNING: Support of Intel(R) Streaming SIMD Extensions 4.2 (Intel(R) SSE4.2) enabled only processors has been deprecated. Intel oneAPI Math Kernel Library 2025.0 will require Intel(R) Advanced Vector Extensions (Intel(R) AVX) instructions.
+Intel MKL WARNING: Support of Intel(R) Streaming SIMD Extensions 4.2 (Intel(R) SSE4.2) enabled only processors has been deprecated. Intel oneAPI Math Kernel Library 2025.0 will require Intel(R) Advanced Vector Extensions (Intel(R) AVX) instructions.
+Intel MKL WARNING: Support of Intel(R) Streaming SIMD Extensions 4.2 (Intel(R) SSE4.2) enabled only processors has been deprecated. Intel oneAPI Math Kernel Library 2025.0 will require Intel(R) Advanced Vector Extensions (Intel(R) AVX) instructions.
+Intel MKL WARNING: Support of Intel(R) Streaming SIMD Extensions 4.2 (Intel(R) SSE4.2) enabled only processors has been deprecated. Intel oneAPI Math Kernel Library 2025.0 will require Intel(R) Advanced Vector Extensions (Intel(R) AVX) instructions.
+Intel MKL WARNING: Support of Intel(R) Streaming SIMD Extensions 4.2 (Intel(R) SSE4.2) enabled only processors has been deprecated. Intel oneAPI Math Kernel Library 2025.0 will require Intel(R) Advanced Vector Extensions (Intel(R) AVX) instructions.
+Intel MKL WARNING: Support of Intel(R) Streaming SIMD Extensions 4.2 (Intel(R) SSE4.2) enabled only processors has been deprecated. Intel oneAPI Math Kernel Library 2025.0 will require Intel(R) Advanced Vector Extensions (Intel(R) AVX) instructions.
+Intel MKL WARNING: Support of Intel(R) Streaming SIMD Extensions 4.2 (Intel(R) SSE4.2) enabled only processors has been deprecated. Intel oneAPI Math Kernel Library 2025.0 will require Intel(R) Advanced Vector Extensions (Intel(R) AVX) instructions.
+Intel MKL WARNING: Support of Intel(R) Streaming SIMD Extensions 4.2 (Intel(R) SSE4.2) enabled only processors has been deprecated. Intel oneAPI Math Kernel Library 2025.0 will require Intel(R) Advanced Vector Extensions (Intel(R) AVX) instructions.
+Intel MKL WARNING: Support of Intel(R) Streaming SIMD Extensions 4.2 (Intel(R) SSE4.2) enabled only processors has been deprecated. Intel oneAPI Math Kernel Library 2025.0 will require Intel(R) Advanced Vector Extensions (Intel(R) AVX) instructions.
+Intel MKL WARNING: Support of Intel(R) Streaming SIMD Extensions 4.2 (Intel(R) SSE4.2) enabled only processors has been deprecated. Intel oneAPI Math Kernel Library 2025.0 will require Intel(R) Advanced Vector Extensions (Intel(R) AVX) instructions.
+Intel MKL WARNING: Support of Intel(R) Streaming SIMD Extensions 4.2 (Intel(R) SSE4.2) enabled only processors has been deprecated. Intel oneAPI Math Kernel Library 2025.0 will require Intel(R) Advanced Vector Extensions (Intel(R) AVX) instructions.
+Intel MKL WARNING: Support of Intel(R) Streaming SIMD Extensions 4.2 (Intel(R) SSE4.2) enabled only processors has been deprecated. Intel oneAPI Math Kernel Library 2025.0 will require Intel(R) Advanced Vector Extensions (Intel(R) AVX) instructions.
+Intel MKL WARNING: Support of Intel(R) Streaming SIMD Extensions 4.2 (Intel(R) SSE4.2) enabled only processors has been deprecated. Intel oneAPI Math Kernel Library 2025.0 will require Intel(R) Advanced Vector Extensions (Intel(R) AVX) instructions.
+Intel MKL WARNING: Support of Intel(R) Streaming SIMD Extensions 4.2 (Intel(R) SSE4.2) enabled only processors has been deprecated. Intel oneAPI Math Kernel Library 2025.0 will require Intel(R) Advanced Vector Extensions (Intel(R) AVX) instructions.
+Intel MKL WARNING: Support of Intel(R) Streaming SIMD Extensions 4.2 (Intel(R) SSE4.2) enabled only processors has been deprecated. Intel oneAPI Math Kernel Library 2025.0 will require Intel(R) Advanced Vector Extensions (Intel(R) AVX) instructions.
+Intel MKL WARNING: Support of Intel(R) Streaming SIMD Extensions 4.2 (Intel(R) SSE4.2) enabled only processors has been deprecated. Intel oneAPI Math Kernel Library 2025.0 will require Intel(R) Advanced Vector Extensions (Intel(R) AVX) instructions.
+Intel MKL WARNING: Support of Intel(R) Streaming SIMD Extensions 4.2 (Intel(R) SSE4.2) enabled only processors has been deprecated. Intel oneAPI Math Kernel Library 2025.0 will require Intel(R) Advanced Vector Extensions (Intel(R) AVX) instructions.
+Intel MKL WARNING: Support of Intel(R) Streaming SIMD Extensions 4.2 (Intel(R) SSE4.2) enabled only processors has been deprecated. Intel oneAPI Math Kernel Library 2025.0 will require Intel(R) Advanced Vector Extensions (Intel(R) AVX) instructions.
+Intel MKL WARNING: Support of Intel(R) Streaming SIMD Extensions 4.2 (Intel(R) SSE4.2) enabled only processors has been deprecated. Intel oneAPI Math Kernel Library 2025.0 will require Intel(R) Advanced Vector Extensions (Intel(R) AVX) instructions.
+Intel MKL WARNING: Support of Intel(R) Streaming SIMD Extensions 4.2 (Intel(R) SSE4.2) enabled only processors has been deprecated. Intel oneAPI Math Kernel Library 2025.0 will require Intel(R) Advanced Vector Extensions (Intel(R) AVX) instructions.
+Intel MKL WARNING: Support of Intel(R) Streaming SIMD Extensions 4.2 (Intel(R) SSE4.2) enabled only processors has been deprecated. Intel oneAPI Math Kernel Library 2025.0 will require Intel(R) Advanced Vector Extensions (Intel(R) AVX) instructions.
+Intel MKL WARNING: Support of Intel(R) Streaming SIMD Extensions 4.2 (Intel(R) SSE4.2) enabled only processors has been deprecated. Intel oneAPI Math Kernel Library 2025.0 will require Intel(R) Advanced Vector Extensions (Intel(R) AVX) instructions.
+Intel MKL WARNING: Support of Intel(R) Streaming SIMD Extensions 4.2 (Intel(R) SSE4.2) enabled only processors has been deprecated. Intel oneAPI Math Kernel Library 2025.0 will require Intel(R) Advanced Vector Extensions (Intel(R) AVX) instructions.
+Intel MKL WARNING: Support of Intel(R) Streaming SIMD Extensions 4.2 (Intel(R) SSE4.2) enabled only processors has been deprecated. Intel oneAPI Math Kernel Library 2025.0 will require Intel(R) Advanced Vector Extensions (Intel(R) AVX) instructions.
+Intel MKL WARNING: Support of Intel(R) Streaming SIMD Extensions 4.2 (Intel(R) SSE4.2) enabled only processors has been deprecated. Intel oneAPI Math Kernel Library 2025.0 will require Intel(R) Advanced Vector Extensions (Intel(R) AVX) instructions.
+Intel MKL WARNING: Support of Intel(R) Streaming SIMD Extensions 4.2 (Intel(R) SSE4.2) enabled only processors has been deprecated. Intel oneAPI Math Kernel Library 2025.0 will require Intel(R) Advanced Vector Extensions (Intel(R) AVX) instructions.
+Intel MKL WARNING: Support of Intel(R) Streaming SIMD Extensions 4.2 (Intel(R) SSE4.2) enabled only processors has been deprecated. Intel oneAPI Math Kernel Library 2025.0 will require Intel(R) Advanced Vector Extensions (Intel(R) AVX) instructions.
+Intel MKL WARNING: Support of Intel(R) Streaming SIMD Extensions 4.2 (Intel(R) SSE4.2) enabled only processors has been deprecated. Intel oneAPI Math Kernel Library 2025.0 will require Intel(R) Advanced Vector Extensions (Intel(R) AVX) instructions.
+Intel MKL WARNING: Support of Intel(R) Streaming SIMD Extensions 4.2 (Intel(R) SSE4.2) enabled only processors has been deprecated. Intel oneAPI Math Kernel Library 2025.0 will require Intel(R) Advanced Vector Extensions (Intel(R) AVX) instructions.
+Intel MKL WARNING: Support of Intel(R) Streaming SIMD Extensions 4.2 (Intel(R) SSE4.2) enabled only processors has been deprecated. Intel oneAPI Math Kernel Library 2025.0 will require Intel(R) Advanced Vector Extensions (Intel(R) AVX) instructions.
+Intel MKL WARNING: Support of Intel(R) Streaming SIMD Extensions 4.2 (Intel(R) SSE4.2) enabled only processors has been deprecated. Intel oneAPI Math Kernel Library 2025.0 will require Intel(R) Advanced Vector Extensions (Intel(R) AVX) instructions.
+Intel MKL WARNING: Support of Intel(R) Streaming SIMD Extensions 4.2 (Intel(R) SSE4.2) enabled only processors has been deprecated. Intel oneAPI Math Kernel Library 2025.0 will require Intel(R) Advanced Vector Extensions (Intel(R) AVX) instructions.
+Intel MKL WARNING: Support of Intel(R) Streaming SIMD Extensions 4.2 (Intel(R) SSE4.2) enabled only processors has been deprecated. Intel oneAPI Math Kernel Library 2025.0 will require Intel(R) Advanced Vector Extensions (Intel(R) AVX) instructions.
+Intel MKL WARNING: Support of Intel(R) Streaming SIMD Extensions 4.2 (Intel(R) SSE4.2) enabled only processors has been deprecated. Intel oneAPI Math Kernel Library 2025.0 will require Intel(R) Advanced Vector Extensions (Intel(R) AVX) instructions.
+Intel MKL WARNING: Support of Intel(R) Streaming SIMD Extensions 4.2 (Intel(R) SSE4.2) enabled only processors has been deprecated. Intel oneAPI Math Kernel Library 2025.0 will require Intel(R) Advanced Vector Extensions (Intel(R) AVX) instructions.
+Intel MKL WARNING: Support of Intel(R) Streaming SIMD Extensions 4.2 (Intel(R) SSE4.2) enabled only processors has been deprecated. Intel oneAPI Math Kernel Library 2025.0 will require Intel(R) Advanced Vector Extensions (Intel(R) AVX) instructions.
+Intel MKL WARNING: Support of Intel(R) Streaming SIMD Extensions 4.2 (Intel(R) SSE4.2) enabled only processors has been deprecated. Intel oneAPI Math Kernel Library 2025.0 will require Intel(R) Advanced Vector Extensions (Intel(R) AVX) instructions.
+Intel MKL WARNING: Support of Intel(R) Streaming SIMD Extensions 4.2 (Intel(R) SSE4.2) enabled only processors has been deprecated. Intel oneAPI Math Kernel Library 2025.0 will require Intel(R) Advanced Vector Extensions (Intel(R) AVX) instructions.
+Intel MKL WARNING: Support of Intel(R) Streaming SIMD Extensions 4.2 (Intel(R) SSE4.2) enabled only processors has been deprecated. Intel oneAPI Math Kernel Library 2025.0 will require Intel(R) Advanced Vector Extensions (Intel(R) AVX) instructions.
+Intel MKL WARNING: Support of Intel(R) Streaming SIMD Extensions 4.2 (Intel(R) SSE4.2) enabled only processors has been deprecated. Intel oneAPI Math Kernel Library 2025.0 will require Intel(R) Advanced Vector Extensions (Intel(R) AVX) instructions.
+Intel MKL WARNING: Support of Intel(R) Streaming SIMD Extensions 4.2 (Intel(R) SSE4.2) enabled only processors has been deprecated. Intel oneAPI Math Kernel Library 2025.0 will require Intel(R) Advanced Vector Extensions (Intel(R) AVX) instructions.
+Intel MKL WARNING: Support of Intel(R) Streaming SIMD Extensions 4.2 (Intel(R) SSE4.2) enabled only processors has been deprecated. Intel oneAPI Math Kernel Library 2025.0 will require Intel(R) Advanced Vector Extensions (Intel(R) AVX) instructions.
+Intel MKL WARNING: Support of Intel(R) Streaming SIMD Extensions 4.2 (Intel(R) SSE4.2) enabled only processors has been deprecated. Intel oneAPI Math Kernel Library 2025.0 will require Intel(R) Advanced Vector Extensions (Intel(R) AVX) instructions.
+Intel MKL WARNING: Support of Intel(R) Streaming SIMD Extensions 4.2 (Intel(R) SSE4.2) enabled only processors has been deprecated. Intel oneAPI Math Kernel Library 2025.0 will require Intel(R) Advanced Vector Extensions (Intel(R) AVX) instructions.
+Intel MKL WARNING: Support of Intel(R) Streaming SIMD Extensions 4.2 (Intel(R) SSE4.2) enabled only processors has been deprecated. Intel oneAPI Math Kernel Library 2025.0 will require Intel(R) Advanced Vector Extensions (Intel(R) AVX) instructions.
+Intel MKL WARNING: Support of Intel(R) Streaming SIMD Extensions 4.2 (Intel(R) SSE4.2) enabled only processors has been deprecated. Intel oneAPI Math Kernel Library 2025.0 will require Intel(R) Advanced Vector Extensions (Intel(R) AVX) instructions.
+Intel MKL WARNING: Support of Intel(R) Streaming SIMD Extensions 4.2 (Intel(R) SSE4.2) enabled only processors has been deprecated. Intel oneAPI Math Kernel Library 2025.0 will require Intel(R) Advanced Vector Extensions (Intel(R) AVX) instructions.
+Intel MKL WARNING: Support of Intel(R) Streaming SIMD Extensions 4.2 (Intel(R) SSE4.2) enabled only processors has been deprecated. Intel oneAPI Math Kernel Library 2025.0 will require Intel(R) Advanced Vector Extensions (Intel(R) AVX) instructions.
+Intel MKL WARNING: Support of Intel(R) Streaming SIMD Extensions 4.2 (Intel(R) SSE4.2) enabled only processors has been deprecated. Intel oneAPI Math Kernel Library 2025.0 will require Intel(R) Advanced Vector Extensions (Intel(R) AVX) instructions.
+Intel MKL WARNING: Support of Intel(R) Streaming SIMD Extensions 4.2 (Intel(R) SSE4.2) enabled only processors has been deprecated. Intel oneAPI Math Kernel Library 2025.0 will require Intel(R) Advanced Vector Extensions (Intel(R) AVX) instructions.
+Intel MKL WARNING: Support of Intel(R) Streaming SIMD Extensions 4.2 (Intel(R) SSE4.2) enabled only processors has been deprecated. Intel oneAPI Math Kernel Library 2025.0 will require Intel(R) Advanced Vector Extensions (Intel(R) AVX) instructions.
+Intel MKL WARNING: Support of Intel(R) Streaming SIMD Extensions 4.2 (Intel(R) SSE4.2) enabled only processors has been deprecated. Intel oneAPI Math Kernel Library 2025.0 will require Intel(R) Advanced Vector Extensions (Intel(R) AVX) instructions.
+Intel MKL WARNING: Support of Intel(R) Streaming SIMD Extensions 4.2 (Intel(R) SSE4.2) enabled only processors has been deprecated. Intel oneAPI Math Kernel Library 2025.0 will require Intel(R) Advanced Vector Extensions (Intel(R) AVX) instructions.
+Intel MKL WARNING: Support of Intel(R) Streaming SIMD Extensions 4.2 (Intel(R) SSE4.2) enabled only processors has been deprecated. Intel oneAPI Math Kernel Library 2025.0 will require Intel(R) Advanced Vector Extensions (Intel(R) AVX) instructions.
+Intel MKL WARNING: Support of Intel(R) Streaming SIMD Extensions 4.2 (Intel(R) SSE4.2) enabled only processors has been deprecated. Intel oneAPI Math Kernel Library 2025.0 will require Intel(R) Advanced Vector Extensions (Intel(R) AVX) instructions.
+Intel MKL WARNING: Support of Intel(R) Streaming SIMD Extensions 4.2 (Intel(R) SSE4.2) enabled only processors has been deprecated. Intel oneAPI Math Kernel Library 2025.0 will require Intel(R) Advanced Vector Extensions (Intel(R) AVX) instructions.
+Intel MKL WARNING: Support of Intel(R) Streaming SIMD Extensions 4.2 (Intel(R) SSE4.2) enabled only processors has been deprecated. Intel oneAPI Math Kernel Library 2025.0 will require Intel(R) Advanced Vector Extensions (Intel(R) AVX) instructions.
+Intel MKL WARNING: Support of Intel(R) Streaming SIMD Extensions 4.2 (Intel(R) SSE4.2) enabled only processors has been deprecated. Intel oneAPI Math Kernel Library 2025.0 will require Intel(R) Advanced Vector Extensions (Intel(R) AVX) instructions.
+Intel MKL WARNING: Support of Intel(R) Streaming SIMD Extensions 4.2 (Intel(R) SSE4.2) enabled only processors has been deprecated. Intel oneAPI Math Kernel Library 2025.0 will require Intel(R) Advanced Vector Extensions (Intel(R) AVX) instructions.
+Intel MKL WARNING: Support of Intel(R) Streaming SIMD Extensions 4.2 (Intel(R) SSE4.2) enabled only processors has been deprecated. Intel oneAPI Math Kernel Library 2025.0 will require Intel(R) Advanced Vector Extensions (Intel(R) AVX) instructions.
+Intel MKL WARNING: Support of Intel(R) Streaming SIMD Extensions 4.2 (Intel(R) SSE4.2) enabled only processors has been deprecated. Intel oneAPI Math Kernel Library 2025.0 will require Intel(R) Advanced Vector Extensions (Intel(R) AVX) instructions.
+Intel MKL WARNING: Support of Intel(R) Streaming SIMD Extensions 4.2 (Intel(R) SSE4.2) enabled only processors has been deprecated. Intel oneAPI Math Kernel Library 2025.0 will require Intel(R) Advanced Vector Extensions (Intel(R) AVX) instructions.
+Intel MKL WARNING: Support of Intel(R) Streaming SIMD Extensions 4.2 (Intel(R) SSE4.2) enabled only processors has been deprecated. Intel oneAPI Math Kernel Library 2025.0 will require Intel(R) Advanced Vector Extensions (Intel(R) AVX) instructions.
+Intel MKL WARNING: Support of Intel(R) Streaming SIMD Extensions 4.2 (Intel(R) SSE4.2) enabled only processors has been deprecated. Intel oneAPI Math Kernel Library 2025.0 will require Intel(R) Advanced Vector Extensions (Intel(R) AVX) instructions.
+Intel MKL WARNING: Support of Intel(R) Streaming SIMD Extensions 4.2 (Intel(R) SSE4.2) enabled only processors has been deprecated. Intel oneAPI Math Kernel Library 2025.0 will require Intel(R) Advanced Vector Extensions (Intel(R) AVX) instructions.
+Intel MKL WARNING: Support of Intel(R) Streaming SIMD Extensions 4.2 (Intel(R) SSE4.2) enabled only processors has been deprecated. Intel oneAPI Math Kernel Library 2025.0 will require Intel(R) Advanced Vector Extensions (Intel(R) AVX) instructions.
+Intel MKL WARNING: Support of Intel(R) Streaming SIMD Extensions 4.2 (Intel(R) SSE4.2) enabled only processors has been deprecated. Intel oneAPI Math Kernel Library 2025.0 will require Intel(R) Advanced Vector Extensions (Intel(R) AVX) instructions.
+Intel MKL WARNING: Support of Intel(R) Streaming SIMD Extensions 4.2 (Intel(R) SSE4.2) enabled only processors has been deprecated. Intel oneAPI Math Kernel Library 2025.0 will require Intel(R) Advanced Vector Extensions (Intel(R) AVX) instructions.
+Intel MKL WARNING: Support of Intel(R) Streaming SIMD Extensions 4.2 (Intel(R) SSE4.2) enabled only processors has been deprecated. Intel oneAPI Math Kernel Library 2025.0 will require Intel(R) Advanced Vector Extensions (Intel(R) AVX) instructions.
+Intel MKL WARNING: Support of Intel(R) Streaming SIMD Extensions 4.2 (Intel(R) SSE4.2) enabled only processors has been deprecated. Intel oneAPI Math Kernel Library 2025.0 will require Intel(R) Advanced Vector Extensions (Intel(R) AVX) instructions.
+Intel MKL WARNING: Support of Intel(R) Streaming SIMD Extensions 4.2 (Intel(R) SSE4.2) enabled only processors has been deprecated. Intel oneAPI Math Kernel Library 2025.0 will require Intel(R) Advanced Vector Extensions (Intel(R) AVX) instructions.
+Intel MKL WARNING: Support of Intel(R) Streaming SIMD Extensions 4.2 (Intel(R) SSE4.2) enabled only processors has been deprecated. Intel oneAPI Math Kernel Library 2025.0 will require Intel(R) Advanced Vector Extensions (Intel(R) AVX) instructions.
+Intel MKL WARNING: Support of Intel(R) Streaming SIMD Extensions 4.2 (Intel(R) SSE4.2) enabled only processors has been deprecated. Intel oneAPI Math Kernel Library 2025.0 will require Intel(R) Advanced Vector Extensions (Intel(R) AVX) instructions.
+Intel MKL WARNING: Support of Intel(R) Streaming SIMD Extensions 4.2 (Intel(R) SSE4.2) enabled only processors has been deprecated. Intel oneAPI Math Kernel Library 2025.0 will require Intel(R) Advanced Vector Extensions (Intel(R) AVX) instructions.
+Intel MKL WARNING: Support of Intel(R) Streaming SIMD Extensions 4.2 (Intel(R) SSE4.2) enabled only processors has been deprecated. Intel oneAPI Math Kernel Library 2025.0 will require Intel(R) Advanced Vector Extensions (Intel(R) AVX) instructions.
+Intel MKL WARNING: Support of Intel(R) Streaming SIMD Extensions 4.2 (Intel(R) SSE4.2) enabled only processors has been deprecated. Intel oneAPI Math Kernel Library 2025.0 will require Intel(R) Advanced Vector Extensions (Intel(R) AVX) instructions.
+Intel MKL WARNING: Support of Intel(R) Streaming SIMD Extensions 4.2 (Intel(R) SSE4.2) enabled only processors has been deprecated. Intel oneAPI Math Kernel Library 2025.0 will require Intel(R) Advanced Vector Extensions (Intel(R) AVX) instructions.
+Intel MKL WARNING: Support of Intel(R) Streaming SIMD Extensions 4.2 (Intel(R) SSE4.2) enabled only processors has been deprecated. Intel oneAPI Math Kernel Library 2025.0 will require Intel(R) Advanced Vector Extensions (Intel(R) AVX) instructions.
+Intel MKL WARNING: Support of Intel(R) Streaming SIMD Extensions 4.2 (Intel(R) SSE4.2) enabled only processors has been deprecated. Intel oneAPI Math Kernel Library 2025.0 will require Intel(R) Advanced Vector Extensions (Intel(R) AVX) instructions.
+Intel MKL WARNING: Support of Intel(R) Streaming SIMD Extensions 4.2 (Intel(R) SSE4.2) enabled only processors has been deprecated. Intel oneAPI Math Kernel Library 2025.0 will require Intel(R) Advanced Vector Extensions (Intel(R) AVX) instructions.
+Intel MKL WARNING: Support of Intel(R) Streaming SIMD Extensions 4.2 (Intel(R) SSE4.2) enabled only processors has been deprecated. Intel oneAPI Math Kernel Library 2025.0 will require Intel(R) Advanced Vector Extensions (Intel(R) AVX) instructions.
+Intel MKL WARNING: Support of Intel(R) Streaming SIMD Extensions 4.2 (Intel(R) SSE4.2) enabled only processors has been deprecated. Intel oneAPI Math Kernel Library 2025.0 will require Intel(R) Advanced Vector Extensions (Intel(R) AVX) instructions.
+Intel MKL WARNING: Support of Intel(R) Streaming SIMD Extensions 4.2 (Intel(R) SSE4.2) enabled only processors has been deprecated. Intel oneAPI Math Kernel Library 2025.0 will require Intel(R) Advanced Vector Extensions (Intel(R) AVX) instructions.
+Intel MKL WARNING: Support of Intel(R) Streaming SIMD Extensions 4.2 (Intel(R) SSE4.2) enabled only processors has been deprecated. Intel oneAPI Math Kernel Library 2025.0 will require Intel(R) Advanced Vector Extensions (Intel(R) AVX) instructions.
+Intel MKL WARNING: Support of Intel(R) Streaming SIMD Extensions 4.2 (Intel(R) SSE4.2) enabled only processors has been deprecated. Intel oneAPI Math Kernel Library 2025.0 will require Intel(R) Advanced Vector Extensions (Intel(R) AVX) instructions.
+Intel MKL WARNING: Support of Intel(R) Streaming SIMD Extensions 4.2 (Intel(R) SSE4.2) enabled only processors has been deprecated. Intel oneAPI Math Kernel Library 2025.0 will require Intel(R) Advanced Vector Extensions (Intel(R) AVX) instructions.
+Intel MKL WARNING: Support of Intel(R) Streaming SIMD Extensions 4.2 (Intel(R) SSE4.2) enabled only processors has been deprecated. Intel oneAPI Math Kernel Library 2025.0 will require Intel(R) Advanced Vector Extensions (Intel(R) AVX) instructions.
+Intel MKL WARNING: Support of Intel(R) Streaming SIMD Extensions 4.2 (Intel(R) SSE4.2) enabled only processors has been deprecated. Intel oneAPI Math Kernel Library 2025.0 will require Intel(R) Advanced Vector Extensions (Intel(R) AVX) instructions.
+Intel MKL WARNING: Support of Intel(R) Streaming SIMD Extensions 4.2 (Intel(R) SSE4.2) enabled only processors has been deprecated. Intel oneAPI Math Kernel Library 2025.0 will require Intel(R) Advanced Vector Extensions (Intel(R) AVX) instructions.
+Intel MKL WARNING: Support of Intel(R) Streaming SIMD Extensions 4.2 (Intel(R) SSE4.2) enabled only processors has been deprecated. Intel oneAPI Math Kernel Library 2025.0 will require Intel(R) Advanced Vector Extensions (Intel(R) AVX) instructions.
+Intel MKL WARNING: Support of Intel(R) Streaming SIMD Extensions 4.2 (Intel(R) SSE4.2) enabled only processors has been deprecated. Intel oneAPI Math Kernel Library 2025.0 will require Intel(R) Advanced Vector Extensions (Intel(R) AVX) instructions.
+Intel MKL WARNING: Support of Intel(R) Streaming SIMD Extensions 4.2 (Intel(R) SSE4.2) enabled only processors has been deprecated. Intel oneAPI Math Kernel Library 2025.0 will require Intel(R) Advanced Vector Extensions (Intel(R) AVX) instructions.
+Intel MKL WARNING: Support of Intel(R) Streaming SIMD Extensions 4.2 (Intel(R) SSE4.2) enabled only processors has been deprecated. Intel oneAPI Math Kernel Library 2025.0 will require Intel(R) Advanced Vector Extensions (Intel(R) AVX) instructions.
+Intel MKL WARNING: Support of Intel(R) Streaming SIMD Extensions 4.2 (Intel(R) SSE4.2) enabled only processors has been deprecated. Intel oneAPI Math Kernel Library 2025.0 will require Intel(R) Advanced Vector Extensions (Intel(R) AVX) instructions.
+Intel MKL WARNING: Support of Intel(R) Streaming SIMD Extensions 4.2 (Intel(R) SSE4.2) enabled only processors has been deprecated. Intel oneAPI Math Kernel Library 2025.0 will require Intel(R) Advanced Vector Extensions (Intel(R) AVX) instructions.
+Intel MKL WARNING: Support of Intel(R) Streaming SIMD Extensions 4.2 (Intel(R) SSE4.2) enabled only processors has been deprecated. Intel oneAPI Math Kernel Library 2025.0 will require Intel(R) Advanced Vector Extensions (Intel(R) AVX) instructions.
+Intel MKL WARNING: Support of Intel(R) Streaming SIMD Extensions 4.2 (Intel(R) SSE4.2) enabled only processors has been deprecated. Intel oneAPI Math Kernel Library 2025.0 will require Intel(R) Advanced Vector Extensions (Intel(R) AVX) instructions.
+Intel MKL WARNING: Support of Intel(R) Streaming SIMD Extensions 4.2 (Intel(R) SSE4.2) enabled only processors has been deprecated. Intel oneAPI Math Kernel Library 2025.0 will require Intel(R) Advanced Vector Extensions (Intel(R) AVX) instructions.
+Intel MKL WARNING: Support of Intel(R) Streaming SIMD Extensions 4.2 (Intel(R) SSE4.2) enabled only processors has been deprecated. Intel oneAPI Math Kernel Library 2025.0 will require Intel(R) Advanced Vector Extensions (Intel(R) AVX) instructions.
+Intel MKL WARNING: Support of Intel(R) Streaming SIMD Extensions 4.2 (Intel(R) SSE4.2) enabled only processors has been deprecated. Intel oneAPI Math Kernel Library 2025.0 will require Intel(R) Advanced Vector Extensions (Intel(R) AVX) instructions.
+Intel MKL WARNING: Support of Intel(R) Streaming SIMD Extensions 4.2 (Intel(R) SSE4.2) enabled only processors has been deprecated. Intel oneAPI Math Kernel Library 2025.0 will require Intel(R) Advanced Vector Extensions (Intel(R) AVX) instructions.
+Intel MKL WARNING: Support of Intel(R) Streaming SIMD Extensions 4.2 (Intel(R) SSE4.2) enabled only processors has been deprecated. Intel oneAPI Math Kernel Library 2025.0 will require Intel(R) Advanced Vector Extensions (Intel(R) AVX) instructions.
+Intel MKL WARNING: Support of Intel(R) Streaming SIMD Extensions 4.2 (Intel(R) SSE4.2) enabled only processors has been deprecated. Intel oneAPI Math Kernel Library 2025.0 will require Intel(R) Advanced Vector Extensions (Intel(R) AVX) instructions.
+Intel MKL WARNING: Support of Intel(R) Streaming SIMD Extensions 4.2 (Intel(R) SSE4.2) enabled only processors has been deprecated. Intel oneAPI Math Kernel Library 2025.0 will require Intel(R) Advanced Vector Extensions (Intel(R) AVX) instructions.
+Intel MKL WARNING: Support of Intel(R) Streaming SIMD Extensions 4.2 (Intel(R) SSE4.2) enabled only processors has been deprecated. Intel oneAPI Math Kernel Library 2025.0 will require Intel(R) Advanced Vector Extensions (Intel(R) AVX) instructions.
+Intel MKL WARNING: Support of Intel(R) Streaming SIMD Extensions 4.2 (Intel(R) SSE4.2) enabled only processors has been deprecated. Intel oneAPI Math Kernel Library 2025.0 will require Intel(R) Advanced Vector Extensions (Intel(R) AVX) instructions.
+Intel MKL WARNING: Support of Intel(R) Streaming SIMD Extensions 4.2 (Intel(R) SSE4.2) enabled only processors has been deprecated. Intel oneAPI Math Kernel Library 2025.0 will require Intel(R) Advanced Vector Extensions (Intel(R) AVX) instructions.
+Intel MKL WARNING: Support of Intel(R) Streaming SIMD Extensions 4.2 (Intel(R) SSE4.2) enabled only processors has been deprecated. Intel oneAPI Math Kernel Library 2025.0 will require Intel(R) Advanced Vector Extensions (Intel(R) AVX) instructions.
+simlex fastText
+(PearsonRResult(statistic=0.22414368568920934, pvalue=8.740598506223576e-13), SignificanceResult(statistic=0.2195005748877454, pvalue=2.6120341922412467e-12), 0.5005005005005005)
+(PearsonRResult(statistic=0.2287516763120864, pvalue=2.8008593515839436e-13), SignificanceResult(statistic=0.22522808529327912, pvalue=6.568345110738533e-13), 0.40040040040040037)
+(PearsonRResult(statistic=0.232863134260097, pvalue=1.0468164418771183e-13), SignificanceResult(statistic=0.2300627893578693, pvalue=2.0892896331956146e-13), 0.5005005005005005)
+(PearsonRResult(statistic=0.25314511050869015, pvalue=5.344271480685629e-16), SignificanceResult(statistic=0.25166366777782045, pvalue=7.987615687467651e-16), 0.5005005005005005)
+(PearsonRResult(statistic=0.25951318023249864, pvalue=8.899248938787729e-17), SignificanceResult(statistic=0.25737783805002906, pvalue=1.6138813441569796e-16), 0.40040040040040037)
+(PearsonRResult(statistic=0.24665759437401813, pvalue=3.046641821364458e-15), SignificanceResult(statistic=0.24636376159878212, pvalue=3.2926657901915326e-15), 0.5005005005005005)
+(PearsonRResult(statistic=0.2501916801170173, pvalue=1.187710343551963e-15), SignificanceResult(statistic=0.25662417506426377, pvalue=2.0585090854088026e-16), 0.5005005005005005)
+(PearsonRResult(statistic=0.25922282785943795, pvalue=9.65262062621103e-17), SignificanceResult(statistic=0.2624005648124734, pvalue=3.944502281248261e-17), 0.40040040040040037)
+(PearsonRResult(statistic=0.261469592046678, pvalue=5.321008289023811e-17), SignificanceResult(statistic=0.2631588332149161, pvalue=3.2981153018898434e-17), 0.5005005005005005)
+simlex glove
+(PearsonRResult(statistic=0.13828527871437613, pvalue=1.2122277139109225e-05), SignificanceResult(statistic=0.14785578604003957, pvalue=2.8485293241776605e-06), 0.5005005005005005)
+(PearsonRResult(statistic=0.14658088486740004, pvalue=3.4342004596565722e-06), SignificanceResult(statistic=0.15566054991237094, pvalue=8.055007114151498e-07), 0.40040040040040037)
+(PearsonRResult(statistic=0.1650672553126937, pvalue=1.662452623172022e-07), SignificanceResult(statistic=0.1744600744991645, pvalue=3.095946288018171e-08), 0.5005005005005005)
+(PearsonRResult(statistic=0.15851678126419744, pvalue=5.0821901427986e-07), SignificanceResult(statistic=0.16485631762017763, pvalue=1.7245663173940164e-07), 0.5005005005005005)
+(PearsonRResult(statistic=0.17408773165621433, pvalue=3.26294727622199e-08), SignificanceResult(statistic=0.18185278076681377, pvalue=7.589881607476728e-09), 0.40040040040040037)
+(PearsonRResult(statistic=0.18830652565210715, pvalue=2.1904332964209815e-09), SignificanceResult(statistic=0.19788010385130855, pvalue=3.1099445263644454e-10), 0.5005005005005005)
+(PearsonRResult(statistic=0.16556467860521995, pvalue=1.524411984333158e-07), SignificanceResult(statistic=0.17753114124682876, pvalue=1.751234809562447e-08), 0.5005005005005005)
+(PearsonRResult(statistic=0.1849015758392727, pvalue=4.206281682875939e-09), SignificanceResult(statistic=0.19615712908930652, pvalue=4.3631173409026107e-10), 0.40040040040040037)
+(PearsonRResult(statistic=0.20499514169855576, pvalue=6.831314066864964e-11), SignificanceResult(statistic=0.21201609911170835, pvalue=1.4492262372173803e-11), 0.5005005005005005)
+wordsim fastText
+(PearsonRResult(statistic=0.5395428526038535, pvalue=4.687815523573627e-28), SignificanceResult(statistic=0.5403701566662794, pvalue=3.751447273849723e-28), 0.0)
+(PearsonRResult(statistic=0.5393559093251392, pvalue=4.929475055805552e-28), SignificanceResult(statistic=0.544323517053861, pvalue=1.282479263309631e-28), 0.0)
+(PearsonRResult(statistic=0.5175899405790827, pvalue=1.3927270444593226e-25), SignificanceResult(statistic=0.5233196360546397, pvalue=3.2788299779886576e-26), 0.0)
+(PearsonRResult(statistic=0.5358373388210237, pvalue=1.2622574766853335e-27), SignificanceResult(statistic=0.5517114803397559, pvalue=1.6602939533643574e-29), 0.0)
+(PearsonRResult(statistic=0.5521691865794912, pvalue=1.4603282547489446e-29), SignificanceResult(statistic=0.5581321784780303, pvalue=2.6941887862130674e-30), 0.0)
+(PearsonRResult(statistic=0.5493888848681501, pvalue=3.17458060380679e-29), SignificanceResult(statistic=0.5575753633133727, pvalue=3.159345659248873e-30), 0.0)
+(PearsonRResult(statistic=0.540050006511208, pvalue=4.089585430671522e-28), SignificanceResult(statistic=0.5587367362462231, pvalue=2.2655861259284892e-30), 0.0)
+(PearsonRResult(statistic=0.5573008365270441, pvalue=3.417053150711216e-30), SignificanceResult(statistic=0.5687989673672756, pvalue=1.2018396592458203e-31), 0.0)
+(PearsonRResult(statistic=0.5534636830664503, pvalue=1.0147402085935846e-29), SignificanceResult(statistic=0.5701749092011565, pvalue=7.980601277260475e-32), 0.0)
+wordsim glove
+(PearsonRResult(statistic=0.3004304814506002, pvalue=8.505924930917691e-09), SignificanceResult(statistic=0.3094348183290802, pvalue=2.858370284441285e-09), 0.0)
+(PearsonRResult(statistic=0.34935673398364026, pvalue=1.4328565854817705e-11), SignificanceResult(statistic=0.3558205770716892, pvalue=5.647131149801226e-12), 0.0)
+(PearsonRResult(statistic=0.35972272244165443, pvalue=3.185873550848702e-12), SignificanceResult(statistic=0.3586704012804171, pvalue=3.720531786342994e-12), 0.0)
+(PearsonRResult(statistic=0.3288696757606426, pvalue=2.3883774638333173e-10), SignificanceResult(statistic=0.31415724385589255, pvalue=1.5894818620372133e-09), 0.0)
+(PearsonRResult(statistic=0.38703129045450113, pvalue=4.6351971505708823e-14), SignificanceResult(statistic=0.37378052607695256, pvalue=3.7939959251091747e-13), 0.0)
+(PearsonRResult(statistic=0.37913793748803326, pvalue=1.640333795205461e-13), SignificanceResult(statistic=0.3674232573976606, pvalue=1.0059929143973618e-12), 0.0)
+(PearsonRResult(statistic=0.3553734805379747, pvalue=6.026915966048046e-12), SignificanceResult(statistic=0.3354732250747945, pvalue=9.863271532604317e-11), 0.0)
+(PearsonRResult(statistic=0.39222259646741015, pvalue=1.9813576518399063e-14), SignificanceResult(statistic=0.37005210155574053, pvalue=6.739044574215239e-13), 0.0)
+(PearsonRResult(statistic=0.3903489047042152, pvalue=2.6973333013988303e-14), SignificanceResult(statistic=0.3796605051283326, pvalue=1.5102592253199755e-13), 0.0)
+men fastText  
+(PearsonRResult(statistic=0.50716445831751, pvalue=7.604242325026493e-196), SignificanceResult(statistic=0.5005814052846408, pvalue=4.734350050236261e-190), 0.0)
+(PearsonRResult(statistic=0.5214911914046081, pvalue=6.649115040649078e-209), SignificanceResult(statistic=0.515954202721493, pvalue=8.78433426944365e-204), 0.0)
+(PearsonRResult(statistic=0.5204849818851132, pvalue=5.760091894030147e-208), SignificanceResult(statistic=0.5141571065351138, pvalue=3.8504737900941396e-202), 0.0)
+(PearsonRResult(statistic=0.540389354540556, pvalue=4.0859413396763113e-227), SignificanceResult(statistic=0.5392202569371021, pvalue=5.912866324848654e-226), 0.0)
+(PearsonRResult(statistic=0.5566224451648757, pvalue=1.0330869821082971e-243), SignificanceResult(statistic=0.5554753222038801, pvalue=1.6490820684435335e-242), 0.0)
+(PearsonRResult(statistic=0.555583659317799, pvalue=1.2700441642253492e-242), SignificanceResult(statistic=0.5522162353482563, pvalue=4.072642298587858e-239), 0.0)
+(PearsonRResult(statistic=0.5535977346256552, pvalue=1.5009130160800134e-240), SignificanceResult(statistic=0.5543142555923745, pvalue=2.6927657510196514e-241), 0.0)
+(PearsonRResult(statistic=0.5770925073115657, pvalue=5.391042195479983e-266), SignificanceResult(statistic=0.5817055040829099, pvalue=3.0871543626938794e-271), 0.0)
+(PearsonRResult(statistic=0.5727669645632096, pvalue=3.7298604989756553e-261), SignificanceResult(statistic=0.5748149318278347, pvalue=1.946041526302158e-263), 0.0)
+men glove
+(PearsonRResult(statistic=0.33516443717445077, pvalue=1.1543627841243452e-79), SignificanceResult(statistic=0.3240481544649291, pvalue=2.6862186586751104e-74), 0.0)
+(PearsonRResult(statistic=0.36718967571702876, pvalue=2.060917214234904e-96), SignificanceResult(statistic=0.3558381080642929, pvalue=2.980831622102395e-90), 0.0)
+(PearsonRResult(statistic=0.3926861506149164, pvalue=3.475748612516944e-111), SignificanceResult(statistic=0.3818245293579994, pvalue=9.913210169724247e-105), 0.0)
+(PearsonRResult(statistic=0.36812747408122387, pvalue=6.221144225970918e-97), SignificanceResult(statistic=0.3473915199215745, pvalue=7.893280338690243e-86), 0.0)
+(PearsonRResult(statistic=0.4116940346505008, pvalue=4.411747056095571e-123), SignificanceResult(statistic=0.3916241003376382, pvalue=1.5242050006244642e-110), 0.0)
+(PearsonRResult(statistic=0.43317215978277407, pvalue=1.7408342670924441e-137), SignificanceResult(statistic=0.4158281894003023, pvalue=8.975525177718458e-126), 0.0)
+(PearsonRResult(statistic=0.38233710040160407, pvalue=4.977997918039925e-105), SignificanceResult(statistic=0.3576364318877745, pvalue=3.2739992067723335e-91), 0.0)
+(PearsonRResult(statistic=0.42645574230700733, pvalue=7.21101554061247e-133), SignificanceResult(statistic=0.4059617438621984, pvalue=2.062347120048812e-119), 0.0)
+(PearsonRResult(statistic=0.43406684188023104, pvalue=4.1474108123890615e-138), SignificanceResult(statistic=0.4125373466333542, pvalue=1.2550008124749916e-123), 0.0)
+men_anno1 fastText
+(PearsonRResult(statistic=0.48156581085468336, pvalue=5.945346847730073e-174), SignificanceResult(statistic=0.47310146277315623, pvalue=3.914230811744481e-167), 0.03333333333333333)
+(PearsonRResult(statistic=0.48885846497308966, pvalue=5.542510654842074e-180), SignificanceResult(statistic=0.48117705959027335, pvalue=1.2346922337739928e-173), 0.03333333333333333)
+(PearsonRResult(statistic=0.48718053211365275, pvalue=1.3938217817047912e-178), SignificanceResult(statistic=0.47987935895063744, pvalue=1.4062190521477703e-172), 0.03333333333333333)
+(PearsonRResult(statistic=0.5122540036959761, pvalue=2.3967652066134465e-200), SignificanceResult(statistic=0.5084606240858847, pvalue=6.168621641954623e-197), 0.03333333333333333)
+(PearsonRResult(statistic=0.5259578662583428, pvalue=4.925182781526494e-213), SignificanceResult(statistic=0.5218569873223711, pvalue=3.5498479735299886e-209), 0.03333333333333333)
+(PearsonRResult(statistic=0.5224558965278373, pvalue=9.774620580436319e-210), SignificanceResult(statistic=0.5177476751090557, pvalue=2.3077905383142514e-205), 0.03333333333333333)
+(PearsonRResult(statistic=0.5263703145597335, pvalue=2.0020844666264904e-213), SignificanceResult(statistic=0.5238818290041454, pvalue=4.487626366230544e-211), 0.03333333333333333)
+(PearsonRResult(statistic=0.5472725067302054, pvalue=5.786687888162521e-234), SignificanceResult(statistic=0.5481735432730735, pvalue=6.983409167376954e-235), 0.03333333333333333)
+(PearsonRResult(statistic=0.536954729978416, pvalue=1.2067891989736336e-223), SignificanceResult(statistic=0.5367253501820592, pvalue=2.0276221736173793e-223), 0.03333333333333333)
+men_anno1 glove
+(PearsonRResult(statistic=0.3175808838514832, pvalue=2.9674649709851287e-71), SignificanceResult(statistic=0.30494733584892136, pvalue=1.437356672416799e-65), 0.03333333333333333)
+(PearsonRResult(statistic=0.3478326024353231, pvalue=4.9855604151514766e-86), SignificanceResult(statistic=0.3337263082685921, pvalue=6.237602623946569e-79), 0.03333333333333333)
+(PearsonRResult(statistic=0.3710755094457176, pvalue=1.511911102419317e-98), SignificanceResult(statistic=0.35880238458696007, pvalue=8.313935142626709e-92), 0.03333333333333333)
+(PearsonRResult(statistic=0.35250897768413647, pvalue=1.8309493383228777e-88), SignificanceResult(statistic=0.32979462403993626, pvalue=5.1035174449739224e-77), 0.03333333333333333)
+(PearsonRResult(statistic=0.3884249030102436, pvalue=1.3748811084120993e-108), SignificanceResult(statistic=0.36636280167030744, pvalue=6.348230121701814e-96), 0.03333333333333333)
+(PearsonRResult(statistic=0.4087761284094242, pvalue=3.642358329583759e-121), SignificanceResult(statistic=0.39076169283128254, pvalue=5.478639564789238e-110), 0.03333333333333333)
+(PearsonRResult(statistic=0.36508695000357616, pvalue=3.2008735401355086e-95), SignificanceResult(statistic=0.3402669824683342, pvalue=3.549034067926715e-82), 0.03333333333333333)
+(PearsonRResult(statistic=0.4013065450056411, pvalue=1.9064168178438828e-116), SignificanceResult(statistic=0.378368152973778, pvalue=1.0793563325077752e-102), 0.03333333333333333)
+(PearsonRResult(statistic=0.4048827480583281, pvalue=1.0865790296294724e-118), SignificanceResult(statistic=0.38074793186090583, pvalue=4.5383791654668915e-104), 0.03333333333333333)
+men_anno2 fastText
+(PearsonRResult(statistic=0.51796327291611, pvalue=1.4603091377893786e-205), SignificanceResult(statistic=0.5108883909245909, pvalue=4.0963555027226404e-199), 0.03333333333333333)
+(PearsonRResult(statistic=0.5294870142348348, pvalue=2.1368317835881185e-216), SignificanceResult(statistic=0.5239262133430791, pvalue=4.076281828086182e-211), 0.03333333333333333)
+(PearsonRResult(statistic=0.5244466328690027, pvalue=1.1228561411506395e-211), SignificanceResult(statistic=0.5192588596746729, pvalue=7.920820871469986e-207), 0.0)
+(PearsonRResult(statistic=0.5511577573797678, pvalue=6.0585381029832616e-238), SignificanceResult(statistic=0.5484268128736115, pvalue=3.849663216867992e-235), 0.03333333333333333)
+(PearsonRResult(statistic=0.5637472962250878, pvalue=3.298858995009914e-251), SignificanceResult(statistic=0.562754921322931, pvalue=3.8433815329998135e-250), 0.03333333333333333)
+(PearsonRResult(statistic=0.5578989856961114, pvalue=4.674774742638993e-245), SignificanceResult(statistic=0.5548129051986974, pvalue=8.125507423549341e-242), 0.0)
+(PearsonRResult(statistic=0.5609249498816976, pvalue=3.480428335813814e-248), SignificanceResult(statistic=0.5587064757690915, pvalue=7.900628200093572e-246), 0.03333333333333333)
+(PearsonRResult(statistic=0.5862985022340108, pvalue=1.8948233683485624e-276), SignificanceResult(statistic=0.5902016425641925, pvalue=5.068418804290563e-281), 0.03333333333333333)
+(PearsonRResult(statistic=0.5765274050795508, pvalue=2.3340118245750665e-265), SignificanceResult(statistic=0.5769811641450324, pvalue=7.197277372710865e-266), 0.0)
+men_anno1 glove
+(PearsonRResult(statistic=0.3389593419006001, pvalue=1.6038126978440313e-81), SignificanceResult(statistic=0.3264725757735192, pvalue=2.005704069988112e-75), 0.03333333333333333)
+(PearsonRResult(statistic=0.3748105489383455, pvalue=1.1728198949959593e-100), SignificanceResult(statistic=0.36450481996656386, pvalue=6.680188916998668e-95), 0.03333333333333333)
+(PearsonRResult(statistic=0.39382341050506, pvalue=7.095227389453225e-112), SignificanceResult(statistic=0.3845616970386632, pvalue=2.468580627783046e-106), 0.0)
+(PearsonRResult(statistic=0.3714675697408124, pvalue=9.105834919842313e-99), SignificanceResult(statistic=0.34770200401525203, pvalue=5.822698758547721e-86), 0.03333333333333333)
+(PearsonRResult(statistic=0.41307323986898686, pvalue=6.18848043247034e-124), SignificanceResult(statistic=0.3916650671090909, pvalue=1.5651528267926918e-110), 0.03333333333333333)
+(PearsonRResult(statistic=0.4394850069293012, pvalue=6.37847012954806e-142), SignificanceResult(statistic=0.42257343635781563, pvalue=3.016698496280029e-130), 0.0)
+(PearsonRResult(statistic=0.3847276402231439, pvalue=2.1358942738471125e-106), SignificanceResult(statistic=0.3583911434298002, pvalue=1.3821990169797417e-91), 0.03333333333333333)
+(PearsonRResult(statistic=0.4324772958907004, pvalue=5.866041676882166e-137), SignificanceResult(statistic=0.41062786904782816, pvalue=2.359290177582725e-122), 0.03333333333333333)
+(PearsonRResult(statistic=0.4435716023297004, pvalue=7.629786981231166e-145), SignificanceResult(statistic=0.42138657944611196, pvalue=1.8797861199350397e-129), 0.0)
+rg fastText
+(PearsonRResult(statistic=0.5028179929249438, pvalue=1.9678201248745574e-05), SignificanceResult(statistic=0.4933234269842034, pvalue=2.9750638991638724e-05), 0.0)
+(PearsonRResult(statistic=0.5196563403739458, pvalue=9.165854743335925e-06), SignificanceResult(statistic=0.5360928394064816, pvalue=4.17613931556122e-06), 0.0)
+(PearsonRResult(statistic=0.5249168957322077, pvalue=7.158830025281632e-06), SignificanceResult(statistic=0.5443538705233039, pvalue=2.768857944160402e-06), 0.0)
+(PearsonRResult(statistic=0.5236497651015135, pvalue=7.600796940530472e-06), SignificanceResult(statistic=0.5233516194564621, pvalue=7.708423318668701e-06), 0.0)
+(PearsonRResult(statistic=0.538063457512421, pvalue=3.7899162079503552e-06), SignificanceResult(statistic=0.5315907959936103, pvalue=5.200786623106604e-06), 0.0)
+(PearsonRResult(statistic=0.5635430800259268, pvalue=1.0206465546298257e-06), SignificanceResult(statistic=0.5287934097953212, pvalue=5.951070797907708e-06), 0.0)
+(PearsonRResult(statistic=0.4982419131020781, pvalue=2.4053003229013843e-05), SignificanceResult(statistic=0.48936774806318534, pvalue=3.5215090164386646e-05), 0.0)
+(PearsonRResult(statistic=0.5329561472704276, pvalue=4.867584148983198e-06), SignificanceResult(statistic=0.5135826223421246, pvalue=1.2130921019696113e-05), 0.0)
+(PearsonRResult(statistic=0.5372326525515171, pvalue=3.948483831130182e-06), SignificanceResult(statistic=0.5228052549646087, pvalue=7.909351368452295e-06), 0.0)
+rg glove
+(PearsonRResult(statistic=0.23165294734009592, pvalue=0.06334650719605822), SignificanceResult(statistic=0.2344996399034467, pvalue=0.0600777356936578), 0.0)
+(PearsonRResult(statistic=0.27611642394543257, pvalue=0.02598711715155103), SignificanceResult(statistic=0.29962628733236296, pvalue=0.015317428324358348), 0.0)
+(PearsonRResult(statistic=0.30523732279794435, pvalue=0.014182349220164897), SignificanceResult(statistic=0.2827771740651799, pvalue=0.023570669460244886), 1.5384615384615385)
+(PearsonRResult(statistic=0.2662394430801214, pvalue=0.03205711807697931), SignificanceResult(statistic=0.2571409844458485, pvalue=0.03865673213311791), 0.0)
+(PearsonRResult(statistic=0.2719458798650959, pvalue=0.02842015235276094), SignificanceResult(statistic=0.2690298757885768, pvalue=0.03023276437484645), 0.0)
+(PearsonRResult(statistic=0.3135991834315578, pvalue=0.011624212972112673), SignificanceResult(statistic=0.31590635962686037, pvalue=0.010992904620671227), 1.5384615384615385)
+(PearsonRResult(statistic=0.21552739668820473, pvalue=0.08466273153792306), SignificanceResult(statistic=0.22492733400617645, pvalue=0.07164052633080396), 0.0)
+(PearsonRResult(statistic=0.2647840719842715, pvalue=0.03304459281699751), SignificanceResult(statistic=0.2287300308694756, pvalue=0.06685052933875937), 0.0)
+(PearsonRResult(statistic=0.3047739417411119, pvalue=0.014337278847348537), SignificanceResult(statistic=0.30022322755377734, pvalue=0.015937775493058075), 1.5384615384615385)
+rw fastText
+(PearsonRResult(statistic=0.4137927425730033, pvalue=2.634058223627141e-40), SignificanceResult(statistic=0.3972401296451076, pvalue=5.26610306184897e-37), 53.63815142576205)
+(PearsonRResult(statistic=0.3991585723867906, pvalue=8.362333436421887e-40), SignificanceResult(statistic=0.3860053189387709, pvalue=3.993035067925578e-37), 50.491642084562436)
+(PearsonRResult(statistic=0.40277672157025896, pvalue=2.939341275964346e-41), SignificanceResult(statistic=0.3804797809840336, pvalue=1.1908239625873684e-36), 49.606686332350044)
+(PearsonRResult(statistic=0.4262827268725831, pvalue=6.373850063789182e-43), SignificanceResult(statistic=0.4139482000198867, pvalue=2.4475745007227064e-40), 53.63815142576205)
+(PearsonRResult(statistic=0.42740020962894293, pvalue=5.590727557530721e-46), SignificanceResult(statistic=0.41976901664645344, pvalue=2.9826117934218894e-44), 50.491642084562436)
+(PearsonRResult(statistic=0.4166647101494304, pvalue=2.6026137139336727e-44), SignificanceResult(statistic=0.40313617587052764, pvalue=2.4605973762105783e-41), 49.606686332350044)
+(PearsonRResult(statistic=0.4275553449724224, pvalue=3.4009600182272017e-43), SignificanceResult(statistic=0.42255952479778114, pvalue=3.94313943852368e-42), 53.63815142576205)
+(PearsonRResult(statistic=0.4305205019423948, pvalue=1.0675795353959212e-46), SignificanceResult(statistic=0.4267461146364845, pvalue=7.893154499209227e-46), 50.491642084562436)
+(PearsonRResult(statistic=0.4266807893152044, pvalue=1.327032806708164e-46), SignificanceResult(statistic=0.4201673502578678, pvalue=4.1927578667247127e-45), 49.606686332350044)
+rw glove
+(PearsonRResult(statistic=0.21080621266426455, pvalue=6.212715648915426e-11), SignificanceResult(statistic=0.2098163855902533, pvalue=7.660338536912576e-11), 53.63815142576205)
+(PearsonRResult(statistic=0.23949549831825812, pvalue=1.85045684339918e-14), SignificanceResult(statistic=0.2296981126154202, pvalue=2.1618815447736225e-13), 51.03244837758112)
+(PearsonRResult(statistic=0.2456392487965105, pvalue=1.4965388910647528e-15), SignificanceResult(statistic=0.24102775409871427, pvalue=5.164055837636396e-15), 49.606686332350044)
+(PearsonRResult(statistic=0.23640508726441664, pvalue=1.9169720512630652e-13), SignificanceResult(statistic=0.2290478424162494, pvalue=1.0856004880970554e-12), 53.63815142576205)
+(PearsonRResult(statistic=0.2459249701706826, pvalue=3.469861299083931e-15), SignificanceResult(statistic=0.24083313170449663, pvalue=1.3115012437275294e-14), 51.03244837758112)
+(PearsonRResult(statistic=0.2518245390322989, pvalue=2.7289819396965273e-16), SignificanceResult(statistic=0.2500392729080056, pvalue=4.48131801687607e-16), 49.606686332350044)
+(PearsonRResult(statistic=0.24288123501205497, pvalue=3.9662904085978864e-14), SignificanceResult(statistic=0.24018090786209995, pvalue=7.693617576689094e-14), 53.63815142576205)
+(PearsonRResult(statistic=0.25432942080509696, pvalue=3.614782270322456e-16), SignificanceResult(statistic=0.24990707357273906, pvalue=1.2007771375369012e-15), 51.03244837758112)
+(PearsonRResult(statistic=0.2775742131634535, pvalue=1.3735132938003715e-19), SignificanceResult(statistic=0.27457981687063554, pvalue=3.4674931599654695e-19), 49.606686332350044)
+card fastText
+(PearsonRResult(statistic=0.21068470261410618, pvalue=0.01835398504452449), SignificanceResult(statistic=0.18380455093675552, pvalue=0.04018249127806234), 81.06060606060606)
+(PearsonRResult(statistic=0.22514419921076217, pvalue=0.01030922965536691), SignificanceResult(statistic=0.19841577465651156, pvalue=0.024190176751268604), 80.45454545454545)
+(PearsonRResult(statistic=0.24036071098648662, pvalue=0.006074264026085626), SignificanceResult(statistic=0.2185040040402848, pvalue=0.01285684773144674), 80.45454545454545)
+(PearsonRResult(statistic=0.19716195528648472, pvalue=0.02753331344381152), SignificanceResult(statistic=0.17464721479532672, pvalue=0.051415284064909784), 81.06060606060606)
+(PearsonRResult(statistic=0.22641126084444113, pvalue=0.009877071363992348), SignificanceResult(statistic=0.20130741540344366, pvalue=0.022159086269297797), 80.45454545454545)
+(PearsonRResult(statistic=0.25062151115813325, pvalue=0.004174397590021977), SignificanceResult(statistic=0.22353833629337294, pvalue=0.010880777736908908), 80.45454545454545)
+(PearsonRResult(statistic=0.18116004702723476, pvalue=0.04319243179504121), SignificanceResult(statistic=0.16923089177377665, pvalue=0.059203027244420614), 81.06060606060606)
+(PearsonRResult(statistic=0.211715309499068, pvalue=0.016014356547035553), SignificanceResult(statistic=0.18467628627191054, pvalue=0.03615675361250927), 80.45454545454545)
+(PearsonRResult(statistic=0.23883876368251747, pvalue=0.006413620451130732), SignificanceResult(statistic=0.20163339728993604, pvalue=0.021939584810875885), 80.45454545454545)
+card glove
+(PearsonRResult(statistic=0.2697141152027878, pvalue=0.002351838104594155), SignificanceResult(statistic=0.2861306353529631, pvalue=0.001217244112563305), 81.06060606060606)
+(PearsonRResult(statistic=0.34497981899267277, pvalue=6.235865211782248e-05), SignificanceResult(statistic=0.3397789739956518, pvalue=8.16690368923228e-05), 80.45454545454545)
+(PearsonRResult(statistic=0.30230174340273497, pvalue=0.000472931906711247), SignificanceResult(statistic=0.294818417729391, pvalue=0.0006616700295741871), 80.3030303030303)
+(PearsonRResult(statistic=0.25385456296431014, pvalue=0.004281828573364798), SignificanceResult(statistic=0.27916196095463514, pvalue=0.001617716965743623), 81.06060606060606)
+(PearsonRResult(statistic=0.34374612175795133, pvalue=6.650826245931845e-05), SignificanceResult(statistic=0.3644557998669564, pvalue=2.1750700246498126e-05), 80.45454545454545)
+(PearsonRResult(statistic=0.3530546254950625, pvalue=3.787970903002178e-05), SignificanceResult(statistic=0.3519391104063874, pvalue=4.0235023759631514e-05), 80.3030303030303)
+(PearsonRResult(statistic=0.2102503297405047, pvalue=0.018601399271119704), SignificanceResult(statistic=0.23113128716818826, pvalue=0.009503756962878824), 81.06060606060606)
+(PearsonRResult(statistic=0.3409677044097267, pvalue=7.681756086764687e-05), SignificanceResult(statistic=0.3733292777102983, pvalue=1.3152619998436004e-05), 80.45454545454545)
+(PearsonRResult(statistic=0.3513754103928627, pvalue=4.1476808189170346e-05), SignificanceResult(statistic=0.37159604000286794, pvalue=1.3438741246006677e-05), 80.3030303030303)
+python -u results.py  610.75s user 21.96s system 99% cpu 10:36.38 total
+(base) user@computer results % 
+
+
+
